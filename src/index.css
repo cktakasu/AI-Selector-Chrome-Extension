@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  width: 400px; /* ポップアップの幅 */
+  height: 500px; /* ポップアップの高さ */
+  padding: 16px;
+  background-color: #f8fafc; /* 薄いグレーの背景 */
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
