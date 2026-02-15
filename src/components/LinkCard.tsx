@@ -34,7 +34,7 @@ export function LinkCard({ link, index }: { link: Link; index: number }) {
                         src={`/icons/${link.icon}`}
                         alt={link.name}
                         loading="lazy"
-                        className="w-[26px] h-[26px] object-contain drop-shadow-none"
+                        className="w-[26px] h-[26px] object-contain drop-shadow-none scale-110"
                         onError={() => setImgError(true)}
                     />
                 ) : (
