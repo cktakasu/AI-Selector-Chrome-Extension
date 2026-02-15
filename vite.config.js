@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwind from '@tailwindcss/vite';
 import { crx, defineManifest } from '@crxjs/vite-plugin';
 var manifest = defineManifest({
     manifest_version: 3,
@@ -15,6 +16,7 @@ var manifest = defineManifest({
 export default defineConfig({
     plugins: [
         react(),
+        tailwind(),
         crx({ manifest: manifest }),
     ],
 });
