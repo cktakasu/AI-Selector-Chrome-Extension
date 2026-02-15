@@ -1,51 +1,71 @@
 export interface Link {
     id: string
     name: string
+    description: string
     url: string
+    category: 'LLM' | 'Image' | 'Audio' | 'Video' | 'Productivity' | 'Dev'
     icon?: string
+    isNew?: boolean
 }
 
 export const links: Link[] = [
     {
-        id: '1',
+        id: 'chatgpt',
         name: 'ChatGPT',
+        description: 'Advanced conversational AI by OpenAI, capable of understanding and generating human-like text.',
         url: 'https://chat.openai.com',
-        icon: '/icons/chatgpt.svg'
+        category: 'LLM',
+        icon: 'chatgpt.svg'
     },
     {
-        id: '2',
+        id: 'claude',
         name: 'Claude',
+        description: 'AI assistant by Anthropic, focused on being helpful, harmless, and honest.',
         url: 'https://claude.ai',
-        icon: '/icons/claude.svg'
+        category: 'LLM',
+        icon: 'claude.svg',
+        isNew: true
     },
     {
-        id: '3',
+        id: 'gemini',
         name: 'Gemini',
+        description: 'Google\'s most capable AI model, built for a variety of tasks and integrated into Google Workspace.',
         url: 'https://gemini.google.com',
-        icon: '/icons/gemini.svg'
+        category: 'LLM',
+        icon: 'gemini.svg'
     },
     {
-        id: '4',
+        id: 'perplexity',
         name: 'Perplexity',
+        description: 'AI-powered search engine and chatbot that provides accurate and verified answers.',
         url: 'https://www.perplexity.ai',
-        icon: '/icons/perplexity.svg'
+        category: 'LLM',
+        icon: 'perplexity.svg'
     },
     {
-        id: '5',
-        name: 'ElevenLabs',
-        url: 'https://elevenlabs.io',
-        icon: '/icons/elevenlabs.svg'
+        id: 'genspark',
+        name: 'Genspark',
+        description: 'AI agents that help you search, shop, and learn more efficiently.',
+        url: 'https://www.genspark.ai',
+        category: 'Productivity',
+        icon: 'genspark.svg',
+        isNew: true
     },
     {
-        id: '6',
-        name: 'Runway',
-        url: 'https://runwayml.com',
-        icon: '/icons/runway.svg'
+        id: 'kimi',
+        name: 'Kimi',
+        description: 'AI assistant by Moonshot AI, capable of processing long context and assisting with research.',
+        url: 'https://kimi.moonshot.cn',
+        category: 'LLM',
+        icon: 'kimi.svg'
     },
     {
-        id: '7',
-        name: 'DeepSeek',
-        url: 'https://www.deepseek.com',
-        icon: '/icons/deepseek.svg'
+        id: 'manus',
+        name: 'Manus',
+        description: 'Next-generation AI research assistant for deep dives and complex information synthesis.',
+        url: 'https://manus.ai',
+        category: 'Dev',
+        icon: 'manus.png',
+        isNew: true
     }
 ]
