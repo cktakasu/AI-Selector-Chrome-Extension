@@ -6,7 +6,7 @@ import { links } from './data/links'
 
 function App() {
     return (
-        <main className="w-[450px] p-6 bg-white min-h-0 rounded-2xl m-0 border border-slate-200 shadow-2xl flex flex-col items-center">
+        <main className="w-[360px] p-5 bg-white min-h-0 rounded-2xl m-0 border border-slate-200 shadow-xl flex flex-col items-center">
             <Header />
             <LinkGrid>
                 {links.map((link, index) => (
