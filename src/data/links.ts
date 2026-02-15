@@ -65,7 +65,7 @@ export const links: Link[] = [
         description: 'Next-generation AI research assistant for deep dives and complex information synthesis.',
         url: 'https://manus.ai',
         category: 'Dev',
-        icon: 'manus.png',
+        icon: 'manus.svg',
         isNew: true
     }
 ]
