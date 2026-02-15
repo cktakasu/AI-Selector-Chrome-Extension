@@ -15,7 +15,7 @@ export function LinkCard({ link, index }: { link: Link; index: number }) {
     return (
         <button
             onClick={handleClick}
-            className="relative flex items-center justify-center p-0 bg-transparent border-none shadow-none outline-none rounded-lg hover:scale-110 hover:-translate-y-1 transition-all duration-200 group w-[38px] h-[38px] cursor-pointer animate-slide-in opacity-0 fill-mode-forwards will-change-transform"
+            className="relative flex items-center justify-center p-0 bg-transparent border-none shadow-none outline-none rounded-lg hover:scale-110 hover:-translate-y-1 transition-all duration-200 group w-[38px] h-[38px] cursor-pointer animate-slide-in opacity-0 fill-mode-forwards"
             style={{ animationDelay: `${index * 50}ms` }}
             title={link.name}
             aria-label={`Open ${link.name}`}
@@ -34,7 +34,7 @@ export function LinkCard({ link, index }: { link: Link; index: number }) {
                         src={`/icons/${link.icon}`}
                         alt={link.name}
                         loading="lazy"
-                        className="w-[26px] h-[26px] object-contain drop-shadow-none scale-110"
+                        className="w-[24px] h-[24px] object-contain"
                         onError={() => setImgError(true)}
                     />
                 ) : (
