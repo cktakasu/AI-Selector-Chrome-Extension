@@ -6,7 +6,7 @@ interface LinkGridProps {
 
 export function LinkGrid({ children }: LinkGridProps) {
     return (
-        <div className="flex flex-row gap-2 justify-center items-center w-full px-2">
+        <div className="flex flex-row flex-wrap gap-0.5 justify-center items-center w-full px-0">
             {children}
         </div>
     )
