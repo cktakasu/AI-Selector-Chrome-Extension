@@ -28,7 +28,7 @@ export function LinkCard({ link, index }: { link: Link; index: number }) {
                     </span>
                 </span>
             )}
-            <div className="w-[26px] h-[26px] rounded-md transition-colors flex items-center justify-center">
+            <div className="w-[26px] h-[26px] rounded-md overflow-hidden transition-colors flex items-center justify-center">
                 {!imgError ? (
                     <img
                         src={`/icons/${link.icon}`}
