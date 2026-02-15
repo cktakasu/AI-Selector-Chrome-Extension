@@ -11,6 +11,12 @@ var manifest = defineManifest({
         default_popup: "index.html",
         default_title: "AI Selecter"
     },
+    icons: {
+        "16": "icon.png",
+        "32": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+    },
     permissions: []
 });
 export default defineConfig({
