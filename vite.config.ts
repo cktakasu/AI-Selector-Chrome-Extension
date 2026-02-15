@@ -10,7 +10,8 @@ const manifest = defineManifest({
   description: "Simple launcher for AI services",
   action: {
     default_popup: "index.html",
-    default_title: "AI Selecter"
+    default_title: "AI Selecter",
+    default_icon: "icon.png"
   },
   icons: {
     "16": "icon.png",
