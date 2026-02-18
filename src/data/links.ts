@@ -5,7 +5,6 @@ export interface Link {
     url: string
     category: 'LLM' | 'Image' | 'Audio' | 'Video' | 'Productivity' | 'Dev'
     icon?: string
-    isNew?: boolean
 }
 
 export const links: Link[] = [
