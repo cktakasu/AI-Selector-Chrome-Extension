@@ -42,10 +42,10 @@ export function LinkCard({ link, index }: { link: Link; index: number }) {
             aria-label={`Open ${link.name}`}
         >
             {isNew && (
-                <span className="absolute -top-1.5 -right-2 flex h-auto w-auto z-10 pointer-events-none">
+                <span className="absolute -top-1.5 -right-1.5 flex h-auto w-auto z-10 pointer-events-none">
                     <span className="relative flex items-center justify-center">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-40"></span>
-                        <span className="relative inline-flex rounded-full px-1.5 py-0.5 bg-sky-500 text-[10px] font-black text-white items-center justify-center uppercase tracking-tighter leading-none shadow-[0_2px_12px_rgba(14,165,233,0.7)] border-[1px] border-white/40">
+                        <span className="relative inline-flex rounded-full px-1 py-0 bg-sky-500 text-[10px] font-black text-white items-center justify-center uppercase tracking-tighter leading-none shadow-[0_2px_12px_rgba(14,165,233,0.7)] border-[1px] border-white/40">
                             New
                         </span>
                     </span>
