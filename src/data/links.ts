@@ -46,7 +46,7 @@ export const links: Link[] = [
         id: 'genspark',
         name: 'Genspark',
         description: 'AI agents that help you search, shop, and learn more efficiently.',
-        url: 'https://www.genspark.ai',
+        url: 'https://www.genspark.ai/agents?type=ai_chat',
         category: 'Productivity',
         icon: 'genspark.svg',
         isNew: true
