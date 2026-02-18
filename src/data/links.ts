@@ -37,9 +37,10 @@ export const links: Link[] = [
         id: 'deepseek',
         name: 'DeepSeek',
         description: 'Advanced AI models for reasoning, coding, and mathematical problem-solving.',
-        url: 'https://www.deepseek.com',
+        url: 'https://www.deepseek.com/en/',
         category: 'LLM',
-        icon: 'deepseek.png'
+        icon: 'deepseek.png',
+        updatedAt: '2026-02-18'
     },
     {
         id: 'kimi',
