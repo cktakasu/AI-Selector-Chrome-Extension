@@ -4,7 +4,7 @@ import { links } from './data/links'
 
 function App() {
     return (
-        <main className="w-fit min-w-max p-2 min-h-0 m-0 flex flex-col items-center bg-transparent">
+        <main className="w-fit p-0.5 min-h-0 m-1 mt-3 flex flex-col items-center bg-white/80 backdrop-blur-md rounded-xl border border-white/40 shadow-xl">
             <LinkGrid>
                 {links.map((link, index) => (
                     <LinkCard key={link.id} link={link} index={index} />

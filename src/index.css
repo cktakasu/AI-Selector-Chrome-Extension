@@ -8,7 +8,7 @@
   font-weight: 400;
 
   color: #1a1a2e;
-  background-color: transparent; /* Make background transparent for popup to look shaped */
+  background-color: transparent !important;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -16,14 +16,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: max-content;
   min-width: fit-content;
   height: auto;
-  background: transparent;
-  overflow-x: hidden;
+  background-color: transparent !important;
+  background: transparent !important;
+  overflow: hidden;
 }
 
 @keyframes slideIn {
@@ -31,6 +33,7 @@ html, body {
     opacity: 0;
     transform: translateX(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);

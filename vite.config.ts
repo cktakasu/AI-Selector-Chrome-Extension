@@ -18,10 +18,6 @@ const manifest = defineManifest({
     "48": "icon.png",
     "128": "icon.png"
   },
-  background: {
-    service_worker: "src/background.ts",
-    type: "module",
-  },
   permissions: []
 })
 
