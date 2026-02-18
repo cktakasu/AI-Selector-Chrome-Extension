@@ -67,5 +67,14 @@ export const links: Link[] = [
         category: 'Dev',
         icon: 'manus.svg',
         isNew: true
+    },
+    {
+        id: 'felo',
+        name: 'Felo',
+        description: 'Free AI search engine and chat to get answers and create content.',
+        url: 'https://felo.ai',
+        category: 'Productivity',
+        icon: 'felo.svg',
+        isNew: true
     }
 ]
