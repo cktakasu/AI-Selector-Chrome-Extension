@@ -9,6 +9,30 @@ export interface Link {
 
 export const links: Link[] = [
     {
+        id: 'manus',
+        name: 'Manus',
+        description: 'Next-generation AI research assistant for deep dives and complex information synthesis.',
+        url: 'https://manus.ai',
+        category: 'Dev',
+        icon: 'manus.svg'
+    },
+    {
+        id: 'felo',
+        name: 'Felo',
+        description: 'Free AI search engine and chat to get answers and create content.',
+        url: 'https://felo.ai',
+        category: 'Productivity',
+        icon: 'felo.png'
+    },
+    {
+        id: 'grok',
+        name: 'Grok',
+        description: 'AI model by xAI, designed to answer questions with wit and has a rebellious streak.',
+        url: 'https://grok.com',
+        category: 'LLM',
+        icon: 'grok.png'
+    },
+    {
         id: 'kimi',
         name: 'Kimi',
         description: 'AI assistant by Moonshot AI, capable of processing long context and assisting with research.',
@@ -25,20 +49,20 @@ export const links: Link[] = [
         icon: 'claude.svg'
     },
     {
-        id: 'gemini',
-        name: 'Gemini',
-        description: 'Google\'s most capable AI model, built for a variety of tasks and integrated into Google Workspace.',
-        url: 'https://gemini.google.com',
-        category: 'LLM',
-        icon: 'gemini.svg'
-    },
-    {
         id: 'chatgpt',
         name: 'ChatGPT',
         description: 'Advanced conversational AI by OpenAI, capable of understanding and generating human-like text.',
         url: 'https://chat.openai.com',
         category: 'LLM',
         icon: 'chatgpt.svg'
+    },
+    {
+        id: 'gemini',
+        name: 'Gemini',
+        description: 'Google\'s most capable AI model, built for a variety of tasks and integrated into Google Workspace.',
+        url: 'https://gemini.google.com',
+        category: 'LLM',
+        icon: 'gemini.svg'
     },
     {
         id: 'perplexity',
@@ -55,23 +79,5 @@ export const links: Link[] = [
         url: 'https://www.genspark.ai/agents?type=ai_chat',
         category: 'Productivity',
         icon: 'genspark.svg'
-    },
-    /*
-    {
-        id: 'manus',
-        name: 'Manus',
-        description: 'Next-generation AI research assistant for deep dives and complex information synthesis.',
-        url: 'https://manus.ai',
-        category: 'Dev',
-        icon: 'manus.svg'
-    },
-    {
-        id: 'felo',
-        name: 'Felo',
-        description: 'Free AI search engine and chat to get answers and create content.',
-        url: 'https://felo.ai',
-        category: 'Productivity',
-        icon: 'felo.png'
     }
-    */
 ]
