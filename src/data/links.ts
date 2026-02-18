@@ -9,12 +9,12 @@ export interface Link {
 
 export const links: Link[] = [
     {
-        id: 'chatgpt',
-        name: 'ChatGPT',
-        description: 'Advanced conversational AI by OpenAI, capable of understanding and generating human-like text.',
-        url: 'https://chat.openai.com',
+        id: 'kimi',
+        name: 'Kimi',
+        description: 'AI assistant by Moonshot AI, capable of processing long context and assisting with research.',
+        url: 'https://kimi.moonshot.cn',
         category: 'LLM',
-        icon: 'chatgpt.svg'
+        icon: 'kimi.svg'
     },
     {
         id: 'claude',
@@ -33,6 +33,14 @@ export const links: Link[] = [
         icon: 'gemini.svg'
     },
     {
+        id: 'chatgpt',
+        name: 'ChatGPT',
+        description: 'Advanced conversational AI by OpenAI, capable of understanding and generating human-like text.',
+        url: 'https://chat.openai.com',
+        category: 'LLM',
+        icon: 'chatgpt.svg'
+    },
+    {
         id: 'perplexity',
         name: 'Perplexity',
         description: 'AI-powered search engine and chatbot that provides accurate and verified answers.',
@@ -47,14 +55,6 @@ export const links: Link[] = [
         url: 'https://www.genspark.ai/agents?type=ai_chat',
         category: 'Productivity',
         icon: 'genspark.svg'
-    },
-    {
-        id: 'kimi',
-        name: 'Kimi',
-        description: 'AI assistant by Moonshot AI, capable of processing long context and assisting with research.',
-        url: 'https://kimi.moonshot.cn',
-        category: 'LLM',
-        icon: 'kimi.svg'
     },
     /*
     {
