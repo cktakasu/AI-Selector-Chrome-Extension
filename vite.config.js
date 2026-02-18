@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import tailwind from '@tailwindcss/vite';
 import { crx, defineManifest } from '@crxjs/vite-plugin';
 var manifest = defineManifest({
     manifest_version: 3,
@@ -18,12 +17,25 @@ var manifest = defineManifest({
         "48": "icon.png",
         "128": "icon.png"
     },
+    background: {
+        service_worker: "src/background.ts",
+        type: "module",
+    },
     permissions: []
 });
 export default defineConfig({
+    server: {
+        port: 5173,
+        strictPort: true,
+        host: '127.0.0.1',
+        hmr: {
+            host: '127.0.0.1',
+            port: 5173,
+        },
+        cors: true,
+    },
     plugins: [
         react(),
-        tailwind(),
         crx({ manifest: manifest }),
     ],
 });
