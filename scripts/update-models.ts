@@ -7,25 +7,58 @@ const MODEL_MAPPING: Record<string, string[]> = {
     'chatgpt': ['openai/gpt-4o', 'openai/gpt-4-turbo', 'openai/gpt-4.1', 'openai/gpt-5'],
     'gemini': ['google/gemini-pro', 'google/gemini-flash', 'google/gemini-2.5-pro', 'google/gemini-3.0-pro'],
     'deepseek': ['deepseek/deepseek-chat', 'deepseek/deepseek-reasoner'],
-    'perplexity': ['perplexity/llama-3.1-sonar-huge-128k-online', 'perplexity/sonar-reasoning'] // Perplexityはモデルの更新が早い
+    'perplexity': ['perplexity/llama-3.1-sonar-huge-128k-online', 'perplexity/sonar-reasoning'],
+    'grok': ['x-ai/grok-2', 'x-ai/grok-3', 'x-ai/grok-4'],
+    'kimi': ['moonshot/kimi-v1']
 };
 
-// 特定のキーワードで新しいモデルを検索する（例: "claude-4" など）
-const DYNAMIC_KEYWORDS = ['claude', 'gpt', 'gemini', 'deepseek', 'sonar'];
+const DYNAMIC_KEYWORDS = ['claude', 'gpt', 'gemini', 'deepseek', 'sonar', 'grok', 'kimi'];
+
+/**
+ * Google News RSSから最新ニュースを取得し、特定キーワードのリリース情報を検知する (Day 0 Detection)
+ */
+async function fetchNewsReleaseDate(keyword: string): Promise<number> {
+    try {
+        const query = encodeURIComponent(`"${keyword}" release launch`);
+        const url = `https://news.google.com/rss/search?q=${query}&hl=en-US&gl=US&ceid=US:en`;
+        const response = await fetch(url);
+        const text = await response.text();
+
+        // 簡易的なXML解析（タイトルと公開日を抽出）
+        const items = text.match(/<item>[\s\S]*?<\/item>/g) || [];
+        for (const item of items) {
+            const title = (item.match(/<title>(.*?)<\/title>/) || [])[1] || "";
+            const pubDateStr = (item.match(/<pubDate>(.*?)<\/pubDate>/) || [])[1] || "";
+
+            // キーワードとリリース関連語が含まれているか厳密にチェック
+            const hasKeyword = title.toLowerCase().includes(keyword.toLowerCase());
+            const hasRelease = /release|launch|announced|available|out now/i.test(title);
+
+            if (hasKeyword && hasRelease) {
+                const pubDate = new Date(pubDateStr).getTime();
+                if (!isNaN(pubDate)) {
+                    return Math.floor(pubDate / 1000);
+                }
+            }
+        }
+    } catch (e) {
+        console.warn(`Failed to fetch news for ${keyword}:`, e);
+    }
+    return 0;
+}
 
 async function updateModels() {
     try {
-        console.log('Fetching models from OpenRouter...');
+        console.log('Fetching models from OpenRouter (Source A)...');
         const response = await fetch('https://openrouter.ai/api/v1/models');
         const json = await response.json() as { data: { id: string, created: number }[] };
 
         const updates: Record<string, string> = {};
 
-        // 各サービスの最新更新日を特定
         for (const [serviceId, modelIds] of Object.entries(MODEL_MAPPING)) {
             let latestCreated = 0;
 
-            // 1. 厳密なマッピングからの取得
+            // 1. OpenRouter (Source A) からの取得
             for (const model of json.data) {
                 if (modelIds.some(id => model.id.startsWith(id))) {
                     if (model.created > latestCreated) {
@@ -34,17 +67,12 @@ async function updateModels() {
                 }
             }
 
-            // 2. ダイナミックキーワードによる検知（新しいバージョンが出た場合）
-            const keyword = DYNAMIC_KEYWORDS.find(k => serviceId.includes(k));
-            if (keyword) {
-                for (const model of json.data) {
-                    if (model.id.includes(keyword) && model.created > latestCreated) {
-                        // "free" や "alpha" などのデリケートなものは除外するヒューリスティック
-                        if (!model.id.includes(':free') && !model.id.includes('alpha')) {
-                            latestCreated = model.created;
-                        }
-                    }
-                }
+            // 2. ニュース速報 (Source B) からの補完検知
+            console.log(`Checking News for ${serviceId} (Source B)...`);
+            const newsCreated = await fetchNewsReleaseDate(serviceId === 'chatgpt' ? 'GPT-4' : serviceId);
+            if (newsCreated > latestCreated) {
+                console.log(`[Day 0 Detection] New release info found in news for ${serviceId}: ${new Date(newsCreated * 1000).toISOString()}`);
+                latestCreated = newsCreated;
             }
 
             if (latestCreated > 0) {
