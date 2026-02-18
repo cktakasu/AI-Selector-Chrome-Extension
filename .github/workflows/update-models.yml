@@ -1,0 +1,33 @@
+name: Update AI Model Info
+on:
+  schedule:
+    - cron: '0 21 * * *' # UTC 21:00 = JST 06:00
+  workflow_dispatch: # 手動実行も可能にする
+
+jobs:
+  update-models:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Run update script
+        run: npx tsx scripts/update-models.ts
+        
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/model_updates.json
+          git commit -m "chore: auto-update AI model release dates" || echo "No changes to commit"
+          git push

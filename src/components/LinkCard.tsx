@@ -1,8 +1,25 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { Link } from '../data/links'
 
 export function LinkCard({ link, index }: { link: Link; index: number }) {
     const [imgError, setImgError] = useState(false);
+    const [remoteUpdatedAt, setRemoteUpdatedAt] = useState<string | null>(null);
+
+    useEffect(() => {
+        // GitHub Pagesなどでホストされる予定のJSONをフェッチ
+        // 開発環境でも public/model_updates.json が参照される
+        fetch('/model_updates.json')
+            .then(res => res.json())
+            .then(data => {
+                if (data[link.id]) {
+                    setRemoteUpdatedAt(data[link.id]);
+                }
+            })
+            .catch(() => {
+                // 通信エラー時は静かにフォールバック（既存の動作を継続）
+                console.log('Using local or no update info for', link.id);
+            });
+    }, [link.id]);
 
     const handleClick = () => {
         if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.create) {
@@ -12,7 +29,9 @@ export function LinkCard({ link, index }: { link: Link; index: number }) {
         }
     };
 
-    const isNew = link.updatedAt ? (Date.now() - new Date(link.updatedAt).getTime()) < 10 * 24 * 60 * 60 * 1000 : false;
+    // リモートデータを優先し、なければローカルの日付を使用
+    const effectiveDate = remoteUpdatedAt || link.updatedAt;
+    const isNew = effectiveDate ? (Date.now() - new Date(effectiveDate).getTime()) < 10 * 24 * 60 * 60 * 1000 : false;
 
     return (
         <button
