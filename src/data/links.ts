@@ -32,14 +32,7 @@ export const links: Link[] = [
         category: 'LLM',
         icon: 'gemini.svg'
     },
-    {
-        id: 'perplexity',
-        name: 'Perplexity',
-        description: 'AI-powered search engine and chatbot that provides accurate and verified answers.',
-        url: 'https://www.perplexity.ai',
-        category: 'LLM',
-        icon: 'perplexity.svg'
-    },
+
     {
         id: 'genspark',
         name: 'Genspark',
@@ -71,5 +64,13 @@ export const links: Link[] = [
         url: 'https://felo.ai',
         category: 'Productivity',
         icon: 'felo.png'
+    },
+    {
+        id: 'perplexity',
+        name: 'Perplexity',
+        description: 'AI-powered search engine and chatbot that provides accurate and verified answers.',
+        url: 'https://www.perplexity.ai',
+        category: 'LLM',
+        icon: 'perplexity.svg'
     }
 ]
