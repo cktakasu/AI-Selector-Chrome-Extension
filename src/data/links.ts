@@ -27,10 +27,18 @@ export const links: Link[] = [
     {
         id: 'grok',
         name: 'Grok',
-        description: 'AI model by xAI, designed to answer questions with wit and has a rebellious streak.',
-        url: 'https://grok.com',
+        description: 'AI model developed by xAI, designed to answer questions with a bit of wit and has a rebellious streak.',
+        url: 'https://x.ai',
         category: 'LLM',
         icon: 'grok.png'
+    },
+    {
+        id: 'deepseek',
+        name: 'DeepSeek',
+        description: 'Advanced AI models for reasoning, coding, and mathematical problem-solving.',
+        url: 'https://www.deepseek.com',
+        category: 'LLM',
+        icon: 'deepseek.png'
     },
     {
         id: 'kimi',
