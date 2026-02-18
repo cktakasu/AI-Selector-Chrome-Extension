@@ -5,6 +5,7 @@ export interface Link {
     url: string
     category: 'LLM' | 'Image' | 'Audio' | 'Video' | 'Productivity' | 'Dev'
     icon?: string
+    updatedAt?: string // ISO date string (YYYY-MM-DD)
 }
 
 export const links: Link[] = [
@@ -54,7 +55,8 @@ export const links: Link[] = [
         description: 'AI assistant by Anthropic, focused on being helpful, harmless, and honest.',
         url: 'https://claude.ai',
         category: 'LLM',
-        icon: 'claude.svg'
+        icon: 'claude.svg',
+        updatedAt: '2026-02-18'
     },
     {
         id: 'chatgpt',
@@ -78,7 +80,8 @@ export const links: Link[] = [
         description: 'AI-powered search engine and chatbot that provides accurate and verified answers.',
         url: 'https://www.perplexity.ai',
         category: 'LLM',
-        icon: 'perplexity.svg'
+        icon: 'perplexity.svg',
+        updatedAt: '2026-02-18'
     },
     {
         id: 'genspark',
