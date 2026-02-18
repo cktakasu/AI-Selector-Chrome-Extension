@@ -23,8 +23,7 @@ export const links: Link[] = [
         description: 'AI assistant by Anthropic, focused on being helpful, harmless, and honest.',
         url: 'https://claude.ai',
         category: 'LLM',
-        icon: 'claude.svg',
-        isNew: true
+        icon: 'claude.svg'
     },
     {
         id: 'gemini',
@@ -48,8 +47,7 @@ export const links: Link[] = [
         description: 'AI agents that help you search, shop, and learn more efficiently.',
         url: 'https://www.genspark.ai/agents?type=ai_chat',
         category: 'Productivity',
-        icon: 'genspark.svg',
-        isNew: true
+        icon: 'genspark.svg'
     },
     {
         id: 'kimi',
@@ -65,8 +63,7 @@ export const links: Link[] = [
         description: 'Next-generation AI research assistant for deep dives and complex information synthesis.',
         url: 'https://manus.ai',
         category: 'Dev',
-        icon: 'manus.svg',
-        isNew: true
+        icon: 'manus.svg'
     },
     {
         id: 'felo',
@@ -74,7 +71,6 @@ export const links: Link[] = [
         description: 'Free AI search engine and chat to get answers and create content.',
         url: 'https://felo.ai',
         category: 'Productivity',
-        icon: 'felo.svg',
-        isNew: true
+        icon: 'felo.png'
     }
 ]
