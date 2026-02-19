@@ -36,8 +36,8 @@ export function LinkCard({ link, index }: { link: Link; index: number }) {
     return (
         <button
             onClick={handleClick}
-            className="relative flex items-center justify-center p-0 bg-transparent border-none shadow-none outline-none focus-visible:ring-2 focus-visible:ring-sky-500 rounded-full hover:scale-110 hover:brightness-110 active:scale-95 transition-all duration-300 ease-out group w-[32px] h-[32px] cursor-pointer animate-slide-in opacity-0 fill-mode-forwards"
-            style={{ animationDelay: `${index * 30}ms` }}
+            className="relative flex items-center justify-center p-0 bg-transparent border-none shadow-none outline-none focus-visible:ring-2 focus-visible:ring-sky-500 rounded-full hover:scale-110 hover:brightness-110 active:scale-95 transition-all duration-300 ease-out group w-[32px] h-[32px] cursor-pointer animate-pop-in opacity-0 fill-mode-forwards"
+            style={{ animationDelay: `${index * 15}ms` }}
             title={link.name}
             aria-label={`Open ${link.name}`}
         >
