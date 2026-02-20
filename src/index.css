@@ -17,12 +17,14 @@
 }
 
 html,
-body {
+body,
+#root {
   margin: 0;
   padding: 0;
   width: max-content;
-  min-width: fit-content;
-  height: auto;
+  height: max-content;
+  min-width: unset;
+  min-height: unset;
   background-color: transparent !important;
   background: transparent !important;
   overflow: hidden;

@@ -8,7 +8,7 @@ function App() {
     const { data: modelUpdates, isLoading } = useModelUpdates();
 
     return (
-        <main className="w-full min-h-screen p-2 flex flex-col items-center justify-center bg-white/20 backdrop-blur-2xl saturate-150">
+        <main className="flex items-center justify-center p-2 bg-transparent m-0">
             <LinkGrid>
                 {links.map((link, index) => (
                     <LinkCard
