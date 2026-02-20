@@ -10,54 +10,13 @@ export interface Link {
 
 export const links: Link[] = [
     {
-        id: 'manus',
-        name: 'Manus',
-        description: 'Next-generation AI research assistant for deep dives and complex information synthesis.',
-        url: 'https://manus.ai',
-        category: 'Dev',
-        icon: 'manus.svg'
-    },
-    {
-        id: 'felo',
-        name: 'Felo',
-        description: 'Free AI search engine and chat to get answers and create content.',
-        url: 'https://felo.ai',
-        category: 'Productivity',
-        icon: 'felo.png'
-    },
-    {
-        id: 'grok',
-        name: 'Grok',
-        description: 'AI model developed by xAI, designed to answer questions with a bit of wit and has a rebellious streak.',
-        url: 'https://x.ai',
-        category: 'LLM',
-        icon: 'grok.png'
-    },
-    {
-        id: 'deepseek',
-        name: 'DeepSeek',
-        description: 'Advanced AI models for reasoning, coding, and mathematical problem-solving.',
-        url: 'https://chat.deepseek.com/',
-        category: 'LLM',
-        icon: 'deepseek.png',
-        updatedAt: '2026-02-18'
-    },
-    {
-        id: 'kimi',
-        name: 'Kimi',
-        description: 'AI assistant by Moonshot AI, capable of processing long context and assisting with research.',
-        url: 'https://kimi.moonshot.cn',
-        category: 'LLM',
-        icon: 'kimi.svg'
-    },
-    {
         id: 'claude',
         name: 'Claude',
         description: 'AI assistant by Anthropic, focused on being helpful, harmless, and honest.',
         url: 'https://claude.ai',
         category: 'LLM',
         icon: 'claude.svg',
-        updatedAt: '2026-02-18'
+        updatedAt: '2026-02-17'
     },
     {
         id: 'chatgpt',
@@ -65,7 +24,8 @@ export const links: Link[] = [
         description: 'Advanced conversational AI by OpenAI, capable of understanding and generating human-like text.',
         url: 'https://chat.openai.com',
         category: 'LLM',
-        icon: 'chatgpt.svg'
+        icon: 'chatgpt.svg',
+        updatedAt: '2026-01-14'
     },
     {
         id: 'gemini',
@@ -73,7 +33,8 @@ export const links: Link[] = [
         description: 'Google\'s most capable AI model, built for a variety of tasks and integrated into Google Workspace.',
         url: 'https://gemini.google.com',
         category: 'LLM',
-        icon: 'gemini.svg'
+        icon: 'gemini.svg',
+        updatedAt: '2026-02-19'
     },
     {
         id: 'perplexity',
@@ -91,5 +52,48 @@ export const links: Link[] = [
         url: 'https://www.genspark.ai/agents?type=ai_chat',
         category: 'Productivity',
         icon: 'genspark.svg'
+    },
+    {
+        id: 'manus',
+        name: 'Manus',
+        description: 'Next-generation AI research assistant for deep dives and complex information synthesis.',
+        url: 'https://manus.ai',
+        category: 'Dev',
+        icon: 'manus.svg',
+        updatedAt: '2026-02-17'
+    },
+    {
+        id: 'felo',
+        name: 'Felo',
+        description: 'Free AI search engine and chat to get answers and create content.',
+        url: 'https://felo.ai',
+        category: 'Productivity',
+        icon: 'felo.png'
+    },
+    {
+        id: 'grok',
+        name: 'Grok',
+        description: 'AI model developed by xAI, designed to answer questions with a bit of wit and has a rebellious streak.',
+        url: 'https://grok.com/',
+        category: 'LLM',
+        icon: 'grok.png',
+        updatedAt: '2026-02-18'
+    },
+    {
+        id: 'deepseek',
+        name: 'DeepSeek',
+        description: 'Advanced AI models for reasoning, coding, and mathematical problem-solving.',
+        url: 'https://chat.deepseek.com/',
+        category: 'LLM',
+        icon: 'deepseek.png'
+    },
+    {
+        id: 'kimi',
+        name: 'Kimi',
+        description: 'AI assistant by Moonshot AI, capable of processing long context and assisting with research.',
+        url: 'https://kimi.moonshot.cn',
+        category: 'LLM',
+        icon: 'kimi.svg',
+        updatedAt: '2026-02-17'
     }
 ]
