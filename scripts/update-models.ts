@@ -12,7 +12,6 @@ const MODEL_MAPPING: Record<string, string[]> = {
     'kimi': ['moonshot/kimi-v1']
 };
 
-const DYNAMIC_KEYWORDS = ['claude', 'gpt', 'gemini', 'deepseek', 'sonar', 'grok', 'kimi'];
 
 /**
  * Google News RSSから最新ニュースを取得し、特定キーワードのリリース情報を検知する (Day 0 Detection)

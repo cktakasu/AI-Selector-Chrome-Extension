@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo, useCallback } from 'react';
 import type { Link } from '../types';
 import { isRecentlyUpdated } from '../utils/date';
 import { NewBadge } from './NewBadge';
@@ -10,16 +10,16 @@ interface LinkCardProps {
     isLoading: boolean;
 }
 
-export function LinkCard({ link, index, remoteUpdatedAt, isLoading }: LinkCardProps) {
+export const LinkCard = memo(function LinkCard({ link, index, remoteUpdatedAt, isLoading }: LinkCardProps) {
     const [imgError, setImgError] = useState(false);
 
-    const handleClick = () => {
+    const handleClick = useCallback(() => {
         if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.create) {
             chrome.tabs.create({ url: link.url });
         } else {
             window.open(link.url, '_blank');
         }
-    };
+    }, [link.url]);
 
     // リモートデータを優先し、なければローカルの日付を使用
     const effectiveDate = remoteUpdatedAt || link.updatedAt;
@@ -57,4 +57,4 @@ export function LinkCard({ link, index, remoteUpdatedAt, isLoading }: LinkCardPr
             </button>
         </div>
     )
-}
+});
