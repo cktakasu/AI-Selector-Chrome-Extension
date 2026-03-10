@@ -1,4 +1,4 @@
-export interface Link {
+export type Link = {
     id: string
     name: string
     description: string
