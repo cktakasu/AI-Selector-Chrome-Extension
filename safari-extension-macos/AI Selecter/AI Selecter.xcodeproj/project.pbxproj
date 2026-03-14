@@ -1,0 +1,624 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CEA19D862F65374A00C820CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA19D852F65374A00C820CF /* AppDelegate.swift */; };
+		CEA19D8A2F65374A00C820CF /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = CEA19D882F65374A00C820CF /* Main.html */; };
+		CEA19D8C2F65374A00C820CF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA19D8B2F65374A00C820CF /* Icon.png */; };
+		CEA19D8E2F65374A00C820CF /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = CEA19D8D2F65374A00C820CF /* Style.css */; };
+		CEA19D902F65374A00C820CF /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = CEA19D8F2F65374A00C820CF /* Script.js */; };
+		CEA19D922F65374A00C820CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA19D912F65374A00C820CF /* ViewController.swift */; };
+		CEA19D952F65374A00C820CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEA19D932F65374A00C820CF /* Main.storyboard */; };
+		CEA19D972F65374B00C820CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEA19D962F65374B00C820CF /* Assets.xcassets */; };
+		CEA19D9E2F65374B00C820CF /* AI Selecter Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CEA19D9D2F65374B00C820CF /* AI Selecter Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CEA19DA32F65374B00C820CF /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA19DA22F65374B00C820CF /* SafariWebExtensionHandler.swift */; };
+		CEA19DB52F65374B00C820CF /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA19DAF2F65374B00C820CF /* icon.png */; };
+		CEA19DB62F65374B00C820CF /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = CEA19DB02F65374B00C820CF /* index.html */; };
+		CEA19DB72F65374B00C820CF /* icons in Resources */ = {isa = PBXBuildFile; fileRef = CEA19DB12F65374B00C820CF /* icons */; };
+		CEA19DB82F65374B00C820CF /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = CEA19DB22F65374B00C820CF /* manifest.json */; };
+		CEA19DB92F65374B00C820CF /* model_updates.json in Resources */ = {isa = PBXBuildFile; fileRef = CEA19DB32F65374B00C820CF /* model_updates.json */; };
+		CEA19DBA2F65374B00C820CF /* assets in Resources */ = {isa = PBXBuildFile; fileRef = CEA19DB42F65374B00C820CF /* assets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CEA19D9F2F65374B00C820CF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEA19D7A2F65374A00C820CF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CEA19D9C2F65374B00C820CF;
+			remoteInfo = "AI Selecter Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CEA19DAA2F65374B00C820CF /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CEA19D9E2F65374B00C820CF /* AI Selecter Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		CEA19D822F65374A00C820CF /* AI Selecter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AI Selecter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEA19D852F65374A00C820CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CEA19D892F65374A00C820CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		CEA19D8B2F65374A00C820CF /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		CEA19D8D2F65374A00C820CF /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		CEA19D8F2F65374A00C820CF /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		CEA19D912F65374A00C820CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CEA19D942F65374A00C820CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CEA19D962F65374B00C820CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CEA19D982F65374B00C820CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEA19D9D2F65374B00C820CF /* AI Selecter Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "AI Selecter Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEA19DA22F65374B00C820CF /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		CEA19DA42F65374B00C820CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEA19DAF2F65374B00C820CF /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../../../dist/icon.png; sourceTree = "<group>"; };
+		CEA19DB02F65374B00C820CF /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = index.html; path = ../../../dist/index.html; sourceTree = "<group>"; };
+		CEA19DB12F65374B00C820CF /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../dist/icons; sourceTree = "<group>"; };
+		CEA19DB22F65374B00C820CF /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../dist/manifest.json; sourceTree = "<group>"; };
+		CEA19DB32F65374B00C820CF /* model_updates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = model_updates.json; path = ../../../dist/model_updates.json; sourceTree = "<group>"; };
+		CEA19DB42F65374B00C820CF /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../../dist/assets; sourceTree = "<group>"; };
+		CEA19DC02F65374C00C820CF /* AI Selecter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AI Selecter.entitlements"; sourceTree = "<group>"; };
+		CEA19DC12F65374C00C820CF /* AI Selecter Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AI Selecter Extension.entitlements"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CEA19D7F2F65374A00C820CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEA19D9A2F65374B00C820CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CEA19D792F65374A00C820CF = {
+			isa = PBXGroup;
+			children = (
+				CEA19D842F65374A00C820CF /* AI Selecter */,
+				CEA19DA12F65374B00C820CF /* AI Selecter Extension */,
+				CEA19D832F65374A00C820CF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CEA19D832F65374A00C820CF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEA19D822F65374A00C820CF /* AI Selecter.app */,
+				CEA19D9D2F65374B00C820CF /* AI Selecter Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CEA19D842F65374A00C820CF /* AI Selecter */ = {
+			isa = PBXGroup;
+			children = (
+				CEA19D852F65374A00C820CF /* AppDelegate.swift */,
+				CEA19D912F65374A00C820CF /* ViewController.swift */,
+				CEA19D932F65374A00C820CF /* Main.storyboard */,
+				CEA19D962F65374B00C820CF /* Assets.xcassets */,
+				CEA19D982F65374B00C820CF /* Info.plist */,
+				CEA19D872F65374A00C820CF /* Resources */,
+			);
+			path = "AI Selecter";
+			sourceTree = "<group>";
+		};
+		CEA19D872F65374A00C820CF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CEA19D882F65374A00C820CF /* Main.html */,
+				CEA19D8B2F65374A00C820CF /* Icon.png */,
+				CEA19D8D2F65374A00C820CF /* Style.css */,
+				CEA19D8F2F65374A00C820CF /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CEA19DA12F65374B00C820CF /* AI Selecter Extension */ = {
+			isa = PBXGroup;
+			children = (
+				CEA19DAE2F65374B00C820CF /* Resources */,
+				CEA19DA22F65374B00C820CF /* SafariWebExtensionHandler.swift */,
+				CEA19DA42F65374B00C820CF /* Info.plist */,
+				CEA19DC12F65374C00C820CF /* AI Selecter Extension.entitlements */,
+			);
+			path = "AI Selecter Extension";
+			sourceTree = "<group>";
+		};
+		CEA19DAE2F65374B00C820CF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CEA19DAF2F65374B00C820CF /* icon.png */,
+				CEA19DB02F65374B00C820CF /* index.html */,
+				CEA19DB12F65374B00C820CF /* icons */,
+				CEA19DB22F65374B00C820CF /* manifest.json */,
+				CEA19DB32F65374B00C820CF /* model_updates.json */,
+				CEA19DB42F65374B00C820CF /* assets */,
+			);
+			name = Resources;
+			path = "AI Selecter Extension";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CEA19D812F65374A00C820CF /* AI Selecter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEA19DAB2F65374B00C820CF /* Build configuration list for PBXNativeTarget "AI Selecter" */;
+			buildPhases = (
+				CEA19D7E2F65374A00C820CF /* Sources */,
+				CEA19D7F2F65374A00C820CF /* Frameworks */,
+				CEA19D802F65374A00C820CF /* Resources */,
+				CEA19DAA2F65374B00C820CF /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CEA19DA02F65374B00C820CF /* PBXTargetDependency */,
+			);
+			name = "AI Selecter";
+			packageProductDependencies = (
+			);
+			productName = "AI Selecter";
+			productReference = CEA19D822F65374A00C820CF /* AI Selecter.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CEA19D9C2F65374B00C820CF /* AI Selecter Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEA19DA72F65374B00C820CF /* Build configuration list for PBXNativeTarget "AI Selecter Extension" */;
+			buildPhases = (
+				CEA19D992F65374B00C820CF /* Sources */,
+				CEA19D9A2F65374B00C820CF /* Frameworks */,
+				CEA19D9B2F65374B00C820CF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AI Selecter Extension";
+			packageProductDependencies = (
+			);
+			productName = "AI Selecter Extension";
+			productReference = CEA19D9D2F65374B00C820CF /* AI Selecter Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CEA19D7A2F65374A00C820CF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2630;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+					CEA19D812F65374A00C820CF = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					CEA19D9C2F65374B00C820CF = {
+						CreatedOnToolsVersion = 26.3;
+					};
+				};
+			};
+			buildConfigurationList = CEA19D7D2F65374A00C820CF /* Build configuration list for PBXProject "AI Selecter" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CEA19D792F65374A00C820CF;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = CEA19D832F65374A00C820CF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CEA19D812F65374A00C820CF /* AI Selecter */,
+				CEA19D9C2F65374B00C820CF /* AI Selecter Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CEA19D802F65374A00C820CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEA19D8C2F65374A00C820CF /* Icon.png in Resources */,
+				CEA19D952F65374A00C820CF /* Main.storyboard in Resources */,
+				CEA19D902F65374A00C820CF /* Script.js in Resources */,
+				CEA19D8A2F65374A00C820CF /* Main.html in Resources */,
+				CEA19D972F65374B00C820CF /* Assets.xcassets in Resources */,
+				CEA19D8E2F65374A00C820CF /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEA19D9B2F65374B00C820CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEA19DB82F65374B00C820CF /* manifest.json in Resources */,
+				CEA19DB72F65374B00C820CF /* icons in Resources */,
+				CEA19DB52F65374B00C820CF /* icon.png in Resources */,
+				CEA19DBA2F65374B00C820CF /* assets in Resources */,
+				CEA19DB62F65374B00C820CF /* index.html in Resources */,
+				CEA19DB92F65374B00C820CF /* model_updates.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CEA19D7E2F65374A00C820CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEA19D922F65374A00C820CF /* ViewController.swift in Sources */,
+				CEA19D862F65374A00C820CF /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEA19D992F65374B00C820CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEA19DA32F65374B00C820CF /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CEA19DA02F65374B00C820CF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CEA19D9C2F65374B00C820CF /* AI Selecter Extension */;
+			targetProxy = CEA19D9F2F65374B00C820CF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CEA19D882F65374A00C820CF /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEA19D892F65374A00C820CF /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		CEA19D932F65374A00C820CF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEA19D942F65374A00C820CF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CEA19DA52F65374B00C820CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CEA19DA62F65374B00C820CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		CEA19DA82F65374B00C820CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "AI Selecter Extension/AI Selecter Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AI Selecter Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "AI Selecter Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = jp.aisel.ai-selector.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CEA19DA92F65374B00C820CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "AI Selecter Extension/AI Selecter Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AI Selecter Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "AI Selecter Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = jp.aisel.ai-selector.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		CEA19DAC2F65374B00C820CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "AI Selecter/AI Selecter.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AI Selecter/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "AI Selecter";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = jp.aisel.ai-selector;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CEA19DAD2F65374B00C820CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "AI Selecter/AI Selecter.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AI Selecter/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "AI Selecter";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = jp.aisel.ai-selector;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CEA19D7D2F65374A00C820CF /* Build configuration list for PBXProject "AI Selecter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEA19DA52F65374B00C820CF /* Debug */,
+				CEA19DA62F65374B00C820CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEA19DA72F65374B00C820CF /* Build configuration list for PBXNativeTarget "AI Selecter Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEA19DA82F65374B00C820CF /* Debug */,
+				CEA19DA92F65374B00C820CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEA19DAB2F65374B00C820CF /* Build configuration list for PBXNativeTarget "AI Selecter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEA19DAC2F65374B00C820CF /* Debug */,
+				CEA19DAD2F65374B00C820CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CEA19D7A2F65374A00C820CF /* Project object */;
+}

@@ -3,6 +3,7 @@ export type Link = {
     name: string
     description: string
     url: string
+    searchUrl?: string // URL pattern for direct search (e.g., https://.../?q=)
     category: 'LLM' | 'Image' | 'Audio' | 'Video' | 'Productivity' | 'Dev'
     icon?: string
     updatedAt?: string // ISO date string (YYYY-MM-DD)
@@ -14,6 +15,7 @@ export const links: Link[] = [
         name: 'Claude',
         description: 'AI assistant by Anthropic, focused on being helpful, harmless, and honest.',
         url: 'https://claude.ai',
+        searchUrl: 'https://claude.ai/new?q=',
         category: 'LLM',
         icon: 'claude.svg',
         updatedAt: '2026-02-17'
@@ -23,6 +25,7 @@ export const links: Link[] = [
         name: 'ChatGPT',
         description: 'Advanced conversational AI by OpenAI, capable of understanding and generating human-like text.',
         url: 'https://chat.openai.com',
+        searchUrl: 'https://chat.openai.com/?q=',
         category: 'LLM',
         icon: 'chatgpt.svg',
         updatedAt: '2026-01-14'
@@ -32,6 +35,7 @@ export const links: Link[] = [
         name: 'Gemini',
         description: 'Google\'s most capable AI model, built for a variety of tasks and integrated into Google Workspace.',
         url: 'https://gemini.google.com',
+        searchUrl: 'https://gemini.google.com/app?q=',
         category: 'LLM',
         icon: 'gemini.svg',
         updatedAt: '2026-02-19'
@@ -41,6 +45,7 @@ export const links: Link[] = [
         name: 'Perplexity',
         description: 'AI-powered search engine and chatbot that provides accurate and verified answers.',
         url: 'https://www.perplexity.ai',
+        searchUrl: 'https://www.perplexity.ai/search?q=',
         category: 'LLM',
         icon: 'perplexity.svg',
         updatedAt: '2026-02-18'
@@ -67,6 +72,7 @@ export const links: Link[] = [
         name: 'Felo',
         description: 'Free AI search engine and chat to get answers and create content.',
         url: 'https://felo.ai',
+        searchUrl: 'https://felo.ai/search?q=',
         category: 'Productivity',
         icon: 'felo.png'
     },
@@ -75,6 +81,7 @@ export const links: Link[] = [
         name: 'Grok',
         description: 'AI model developed by xAI, designed to answer questions with a bit of wit and has a rebellious streak.',
         url: 'https://grok.com/',
+        searchUrl: 'https://grok.com/?q=',
         category: 'LLM',
         icon: 'grok.png',
         updatedAt: '2026-02-18'
