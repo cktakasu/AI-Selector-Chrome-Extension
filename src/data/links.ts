@@ -31,16 +31,6 @@ export const links: Link[] = [
         updatedAt: '2026-01-14'
     },
     {
-        id: 'gemini',
-        name: 'Gemini',
-        description: 'Google\'s most capable AI model, built for a variety of tasks and integrated into Google Workspace.',
-        url: 'https://gemini.google.com',
-        searchUrl: 'https://gemini.google.com/app?q=',
-        category: 'LLM',
-        icon: 'gemini.svg',
-        updatedAt: '2026-02-19'
-    },
-    {
         id: 'perplexity',
         name: 'Perplexity',
         description: 'AI-powered search engine and chatbot that provides accurate and verified answers.',
@@ -57,6 +47,16 @@ export const links: Link[] = [
         url: 'https://www.genspark.ai/agents?type=ai_chat',
         category: 'Productivity',
         icon: 'genspark.svg'
+    },
+    {
+        id: 'grok',
+        name: 'Grok',
+        description: 'AI model developed by xAI, designed to answer questions with a bit of wit and has a rebellious streak.',
+        url: 'https://grok.com/',
+        searchUrl: 'https://grok.com/?q=',
+        category: 'LLM',
+        icon: 'grok.png',
+        updatedAt: '2026-02-18'
     },
     {
         id: 'manus',
@@ -77,14 +77,14 @@ export const links: Link[] = [
         icon: 'felo.png'
     },
     {
-        id: 'grok',
-        name: 'Grok',
-        description: 'AI model developed by xAI, designed to answer questions with a bit of wit and has a rebellious streak.',
-        url: 'https://grok.com/',
-        searchUrl: 'https://grok.com/?q=',
+        id: 'gemini',
+        name: 'Gemini',
+        description: 'Google\'s most capable AI model, built for a variety of tasks and integrated into Google Workspace.',
+        url: 'https://gemini.google.com',
+        searchUrl: 'https://gemini.google.com/app?q=',
         category: 'LLM',
-        icon: 'grok.png',
-        updatedAt: '2026-02-18'
+        icon: 'gemini.svg',
+        updatedAt: '2026-02-19'
     },
     {
         id: 'deepseek',

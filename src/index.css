@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color: #1a1a2e;
-  background-color: transparent !important;
+  color: #f8fafc;
+  background-color: #020617; /* Slate 950 for deeper look */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -23,9 +23,33 @@ body,
   padding: 0;
   width: max-content;
   height: max-content;
-  min-width: unset;
-  min-height: unset;
-  background-color: transparent !important;
-  background: transparent !important;
+  background-color: #020617 !important;
   overflow: hidden;
+}
+
+/* Premium Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Custom Scrollbar for Textarea */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
