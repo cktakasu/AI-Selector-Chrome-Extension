@@ -52,12 +52,12 @@ function App() {
     }
 
     return (
-        <main className="flex flex-col items-center justify-center p-4 bg-[#0a0f1e]/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] m-1 border border-white/10 min-w-[280px] relative overflow-hidden">
+        <main className="flex flex-col items-center justify-center p-3 bg-[#0a0f1e]/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] m-1 border border-white/10 min-w-[260px] relative overflow-hidden">
             {/* Background Mesh Gradient - Subtle accent */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 bg-[radial-gradient(circle_at_50%_0%,#3b82f6,transparent_70%)]" />
 
             {/* Header / Mode Toggle */}
-            <div className="flex items-center justify-between w-full mb-4 px-1 relative z-10">
+            <div className="flex items-center justify-between w-full mb-3 px-1 relative z-10">
                 <div className="flex flex-col">
                     <h1 className="text-[10px] font-black text-sky-400 uppercase tracking-[0.2em] leading-none mb-1">
                         AI Selector
@@ -85,14 +85,14 @@ function App() {
             </div>
 
             {/* Grid */}
-            <div className="grid grid-cols-5 gap-x-3 gap-y-4 w-max p-2 relative z-10">
+            <div className="grid grid-cols-5 gap-x-2 gap-y-2 w-max p-1 relative z-10">
                 {rawItems.map((link) => {
                     const isSelected = selectedIds.includes(link.id)
                     return (
                         <div key={link.id} className="relative group flex flex-col items-center">
                             <button
                                 onClick={() => isMultiMode ? toggleSelection(link.id) : openUrl(link.url)}
-                                className={`relative flex flex-col items-center justify-center rounded-[14px] transition-all duration-300 w-[50px] h-[50px] overflow-visible border ${
+                                className={`relative flex flex-col items-center justify-center rounded-[12px] transition-all duration-300 w-[44px] h-[44px] overflow-visible border ${
                                     isSelected 
                                     ? 'bg-sky-500/20 border-sky-400/50 shadow-[0_0_20px_rgba(56,189,248,0.2)] scale-105' 
                                     : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20 active:scale-95'
@@ -101,7 +101,7 @@ function App() {
                             >
                                 {/* Badge - Updated design */}
                                 {link.isNew && !isSelected && (
-                                    <span className="absolute -top-1.5 -right-1.5 z-10 rounded-md px-1 py-0.5 bg-gradient-to-r from-sky-500 to-blue-600 text-[9px] scale-[0.8] font-black text-white uppercase tracking-wider shadow-lg border border-white/20 origin-top-right">
+                                    <span className="absolute -top-1.5 -right-1.5 z-10 rounded-md px-1 py-0.5 bg-gradient-to-r from-sky-500 to-blue-600 text-[8px] scale-[0.8] font-black text-white uppercase tracking-wider shadow-lg border border-white/20 origin-top-right">
                                         NEW
                                     </span>
                                 )}
@@ -115,7 +115,7 @@ function App() {
                                     </div>
                                 )}
                                 
-                                <div className="w-[30px] h-[30px] bg-slate-100 rounded-[8px] p-[4px] shadow-inner flex items-center justify-center">
+                                <div className="w-[26px] h-[26px] bg-slate-100 rounded-[7px] p-[3px] shadow-inner flex items-center justify-center">
                                     <img
                                         src={`/icons/${link.icon}`}
                                         alt={link.name}
@@ -126,11 +126,11 @@ function App() {
                                         }}
                                     />
                                 </div>
-                                <span hidden className="text-[12px] font-black text-white/40 uppercase tracking-tighter absolute">
+                                <span hidden className="text-[11px] font-black text-white/40 uppercase tracking-tighter absolute">
                                     {link.name.slice(0, 2)}
                                 </span>
                             </button>
-                            <span className="mt-1.5 text-[9px] font-semibold text-white/50 tracking-wider text-center w-[54px] truncate px-0.5">
+                            <span className="mt-1 text-[8.5px] font-semibold text-white/40 tracking-wider text-center w-[48px] truncate px-0.5 leading-tight">
                                 {link.name}
                             </span>
                         </div>
@@ -140,7 +140,7 @@ function App() {
 
             {/* Multi-Search UI */}
             {isMultiMode && (
-                <div className="w-full relative z-10 mt-4">
+                <div className="w-full relative z-10 mt-3">
                     <div className="flex flex-col gap-3 p-1">
                     <div className="relative group">
                         <textarea
