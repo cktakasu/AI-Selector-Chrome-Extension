@@ -56,43 +56,15 @@ function App() {
             {/* Background Mesh Gradient - Subtle accent */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 bg-[radial-gradient(circle_at_50%_0%,#3b82f6,transparent_70%)]" />
 
-            {/* Header / Mode Toggle */}
-            <div className="flex items-center justify-between w-full mb-3 px-1 relative z-10">
-                <div className="flex flex-col">
-                    <h1 className="text-[10px] font-black text-sky-400 uppercase tracking-[0.2em] leading-none mb-1">
-                        AI Selector
-                    </h1>
-                    <div className="h-0.5 w-6 bg-sky-500/50 rounded-full" />
-                </div>
-                
-                <button
-                    onClick={() => {
-                        setIsMultiMode(!isMultiMode)
-                        if (isMultiMode) {
-                            setSelectedIds([])
-                            setPrompt('')
-                        }
-                    }}
-                    className={`text-[10px] font-bold px-3 py-1.5 rounded-lg transition-all duration-300 border flex items-center gap-2 group ${
-                        isMultiMode 
-                        ? 'bg-sky-500/10 border-sky-500/50 text-sky-400 shadow-[0_0_15px_rgba(14,165,233,0.2)]' 
-                        : 'bg-white/5 border-white/5 text-white/40 hover:bg-white/10 hover:border-white/10 hover:text-white/60'
-                    }`}
-                >
-                    <div className={`w-1.5 h-1.5 rounded-full ${isMultiMode ? 'bg-sky-400 animate-pulse' : 'bg-white/20'}`} />
-                    {isMultiMode ? 'MULTI MODE' : 'SINGLE MODE'}
-                </button>
-            </div>
-
             {/* Grid */}
-            <div className="grid grid-cols-5 gap-x-2 gap-y-2 w-max p-1 relative z-10">
+            <div className="grid grid-cols-5 gap-x-1.5 gap-y-2 w-max p-0.5 relative z-10">
                 {rawItems.map((link) => {
                     const isSelected = selectedIds.includes(link.id)
                     return (
                         <div key={link.id} className="relative group flex flex-col items-center">
                             <button
                                 onClick={() => isMultiMode ? toggleSelection(link.id) : openUrl(link.url)}
-                                className={`relative flex flex-col items-center justify-center rounded-[12px] transition-all duration-300 w-[44px] h-[44px] overflow-visible border ${
+                                className={`relative flex flex-col items-center justify-center rounded-[10px] transition-all duration-300 w-[42px] h-[42px] overflow-visible border ${
                                     isSelected 
                                     ? 'bg-sky-500/20 border-sky-400/50 shadow-[0_0_20px_rgba(56,189,248,0.2)] scale-105' 
                                     : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20 active:scale-95'
@@ -101,7 +73,7 @@ function App() {
                             >
                                 {/* Badge - Updated design */}
                                 {link.isNew && !isSelected && (
-                                    <span className="absolute -top-1.5 -right-1.5 z-10 rounded-md px-1 py-0.5 bg-gradient-to-r from-sky-500 to-blue-600 text-[8px] scale-[0.8] font-black text-white uppercase tracking-wider shadow-lg border border-white/20 origin-top-right">
+                                    <span className="absolute -top-1 -right-1 z-10 rounded-md px-1 py-0.5 bg-gradient-to-r from-sky-500 to-blue-600 text-[8px] scale-[0.75] font-black text-white uppercase tracking-wider shadow-lg border border-white/20 origin-top-right">
                                         NEW
                                     </span>
                                 )}
@@ -115,11 +87,11 @@ function App() {
                                     </div>
                                 )}
                                 
-                                <div className="w-[26px] h-[26px] bg-slate-100 rounded-[7px] p-[3px] shadow-inner flex items-center justify-center">
+                                <div className="w-[34px] h-[34px] bg-slate-100 rounded-[6px] p-[2px] shadow-inner flex items-center justify-center">
                                     <img
                                         src={`/icons/${link.icon}`}
                                         alt={link.name}
-                                        className={`w-full h-full object-contain transition-all duration-300 ${isSelected ? 'opacity-100' : 'opacity-90 group-hover:opacity-100 group-hover:scale-105'}`}
+                                        className={`w-full h-full object-contain transition-all duration-300 ${isSelected ? 'opacity-100' : 'opacity-90 group-hover:opacity-100'}`}
                                         onError={(event) => {
                                             event.currentTarget.parentElement!.hidden = true
                                             event.currentTarget.parentElement!.nextElementSibling?.removeAttribute('hidden')
@@ -130,7 +102,7 @@ function App() {
                                     {link.name.slice(0, 2)}
                                 </span>
                             </button>
-                            <span className="mt-1 text-[8.5px] font-semibold text-white/40 tracking-wider text-center w-[48px] truncate px-0.5 leading-tight">
+                            <span className="mt-0.5 text-[8.5px] font-semibold text-white/30 tracking-tight text-center w-[44px] truncate px-0.5 leading-none">
                                 {link.name}
                             </span>
                         </div>
@@ -140,7 +112,7 @@ function App() {
 
             {/* Multi-Search UI */}
             {isMultiMode && (
-                <div className="w-full relative z-10 mt-3">
+                <div className="w-full relative z-10 mt-3 mb-4">
                     <div className="flex flex-col gap-3 p-1">
                     <div className="relative group">
                         <textarea
@@ -184,6 +156,34 @@ function App() {
                 </div>
             </div>
             )}
+
+            {/* Header / Mode Toggle (Moved to Bottom) */}
+            <div className="flex items-center justify-between w-full mt-2 pt-2 px-1 relative z-10 border-t border-white/5">
+                <div className="flex flex-col opacity-50 text-white hover:opacity-100 transition-opacity">
+                    <h1 className="text-[9px] font-black uppercase tracking-[0.2em] leading-none mb-1">
+                        AI Selector
+                    </h1>
+                    <div className="h-0.5 w-4 bg-sky-500/50 rounded-full" />
+                </div>
+                
+                <button
+                    onClick={() => {
+                        setIsMultiMode(!isMultiMode)
+                        if (isMultiMode) {
+                            setSelectedIds([])
+                            setPrompt('')
+                        }
+                    }}
+                    className={`text-[9px] font-bold px-2 py-1 rounded-md transition-all duration-300 border flex items-center gap-2 group ${
+                        isMultiMode 
+                        ? 'bg-sky-500/10 border-sky-500/50 text-sky-400 shadow-[0_0_10px_rgba(14,165,233,0.1)]' 
+                        : 'bg-white/5 border-white/5 text-white/30 hover:bg-white/10 hover:text-white/50'
+                    }`}
+                >
+                    <div className={`w-1 h-1 rounded-full ${isMultiMode ? 'bg-sky-400 animate-pulse' : 'bg-white/20'}`} />
+                    {isMultiMode ? 'MULTI' : 'SINGLE'}
+                </button>
+            </div>
             
             <style>{`
                 @keyframes gradient {
