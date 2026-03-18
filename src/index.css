@@ -7,8 +7,13 @@
   line-height: 1.5;
   font-weight: 400;
 
+  --bg-main: #020617;
+  --bg-card: #0a0f1e;
+  --color-primary: #3b82f6;
+  --border-subtle: rgba(255, 255, 255, 0.1);
+
   color: #f8fafc;
-  background-color: #020617; /* Slate 950 for deeper look */
+  background-color: var(--bg-main);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -28,6 +33,17 @@ body,
 }
 
 /* Premium Animations Removed for Speed */
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% auto;
+  animation: gradient-shift 3s linear infinite;
+}
 
 /* Custom Scrollbar for Textarea */
 ::-webkit-scrollbar {

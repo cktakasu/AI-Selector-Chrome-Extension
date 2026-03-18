@@ -1,14 +1,15 @@
-import { useState } from 'react'
+import { useMemo, useCallback } from 'react'
 import { links } from './data/links'
 import modelUpdates from '../public/model_updates.json'
 import { AIIcon } from './components/AIIcon'
-import { MultiSearchUI } from './components/MultiSearchUI'
+import { PromptInput } from './components/PromptInput'
 import { Footer } from './components/Footer'
+import { usePrompt } from './hooks/usePrompt'
 
 const isNew = (date?: string | null) =>
     !!date && Date.now() - new Date(date).getTime() < 5 * 24 * 60 * 60 * 1000
 
-const rawItems = links.map((link) => ({
+const getProcessedItems = () => links.map((link) => ({
     ...link,
     updatedAt: (modelUpdates as Record<string, string>)[link.id] || link.updatedAt,
     isNew: isNew((modelUpdates as Record<string, string>)[link.id] || link.updatedAt),
@@ -23,50 +24,25 @@ const openUrl = (url: string) => {
 }
 
 function App() {
-    const [isMultiMode, setIsMultiMode] = useState(false)
-    const [prompt, setPrompt] = useState('')
-    const [selectedIds, setSelectedIds] = useState<string[]>([])
+    const { prompt, setPrompt, copyToClipboard } = usePrompt();
+    const rawItems = useMemo(() => getProcessedItems(), [])
 
-    const toggleSelection = (id: string) => {
-        setSelectedIds((prev) =>
-            prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-        )
-    }
+    const handleIconClick = useCallback(async (link: typeof rawItems[0]) => {
+        await copyToClipboard(prompt);
 
-    const handleSend = async () => {
-        if (!prompt || selectedIds.length === 0) return
-
-        try {
-            await navigator.clipboard.writeText(prompt)
-        } catch (err) {
-            console.error('Failed to copy text: ', err)
-        }
-
-        selectedIds.forEach((id) => {
-            const item = rawItems.find((i) => i.id === id)
-            if (item) {
-                const url = item.searchUrl
-                    ? `${item.searchUrl}${encodeURIComponent(prompt)}`
-                    : item.url
-                openUrl(url)
-            }
-        })
-    }
-
-    const toggleMode = () => {
-        setIsMultiMode(!isMultiMode)
-        if (!isMultiMode) { // Entering MULTI mode, no reset needed? 
-            // The existing code resets when EXITING MULTI mode
-        } else {
-            setSelectedIds([])
-            setPrompt('')
-        }
-    }
+        const url = prompt && link.searchUrl
+            ? `${link.searchUrl}${encodeURIComponent(prompt)}`
+            : link.url
+        openUrl(url)
+    }, [prompt, copyToClipboard])
 
     return (
-        <main className="flex flex-col items-center justify-center p-3 bg-[#0a0f1e] rounded-2xl m-1 border border-white/10 min-w-[260px] relative overflow-hidden">
+        <main className="flex flex-col items-center justify-center p-3 bg-[var(--bg-card)] rounded-2xl m-1 border border-[var(--border-subtle)] min-w-[260px] relative overflow-hidden">
             {/* Background */}
-            <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 bg-[radial-gradient(circle_at_50%_0%,#3b82f6,transparent_70%)]" />
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 bg-[radial-gradient(circle_at_50%_0%,var(--color-primary),transparent_70%)]" />
+
+            {/* Prompt Input - Always visible */}
+            <PromptInput prompt={prompt} setPrompt={setPrompt} />
 
             {/* Grid */}
             <div className="grid grid-cols-5 gap-x-1.5 gap-y-2 w-max p-0.5 relative z-10">
@@ -74,34 +50,13 @@ function App() {
                     <AIIcon
                         key={link.id}
                         link={link}
-                        isSelected={selectedIds.includes(link.id)}
-                        isMultiMode={isMultiMode}
-                        onToggle={toggleSelection}
-                        onOpen={openUrl}
+                        onOpen={handleIconClick}
                     />
                 ))}
             </div>
 
-            {/* Multi-Search UI */}
-            {isMultiMode && (
-                <MultiSearchUI
-                    prompt={prompt}
-                    setPrompt={setPrompt}
-                    selectedCount={selectedIds.length}
-                    onSend={handleSend}
-                />
-            )}
-
-            {/* Footer / Mode Toggle */}
-            <Footer isMultiMode={isMultiMode} onToggleMode={toggleMode} />
-            
-            <style>{`
-                @keyframes gradient {
-                    0% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                    100% { background-position: 0% 50%; }
-                }
-            `}</style>
+            {/* Footer */}
+            <Footer />
         </main>
     )
 }
