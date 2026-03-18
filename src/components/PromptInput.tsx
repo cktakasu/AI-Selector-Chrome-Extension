@@ -9,6 +9,7 @@ export const PromptInput: React.FC<PromptInputProps> = ({ prompt, setPrompt }) =
     return (
         <div className="w-full relative z-10 mb-2">
             <textarea
+                autoFocus
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="Type your instruction..."
