@@ -45,6 +45,7 @@ export const links: Link[] = [
         name: 'Genspark',
         description: 'AI agents that help you search, shop, and learn more efficiently.',
         url: 'https://www.genspark.ai/agents?type=ai_chat',
+        searchUrl: 'https://www.genspark.ai/search?q=',
         category: 'Productivity',
         icon: 'genspark.svg'
     },
@@ -91,6 +92,7 @@ export const links: Link[] = [
         name: 'DeepSeek',
         description: 'Advanced AI models for reasoning, coding, and mathematical problem-solving.',
         url: 'https://chat.deepseek.com/',
+        searchUrl: 'https://chat.deepseek.com/?q=',
         category: 'LLM',
         icon: 'deepseek.png'
     },
@@ -99,6 +101,7 @@ export const links: Link[] = [
         name: 'Kimi',
         description: 'AI assistant by Moonshot AI, capable of processing long context and assisting with research.',
         url: 'https://kimi.moonshot.cn',
+        searchUrl: 'https://kimi.moonshot.cn/chat?q=',
         category: 'LLM',
         icon: 'kimi.svg',
         updatedAt: '2026-02-17'
