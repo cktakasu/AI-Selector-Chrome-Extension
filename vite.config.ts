@@ -18,7 +18,7 @@ const manifest = defineManifest({
     "48": "icon.png",
     "128": "icon.png"
   },
-  permissions: []
+  permissions: ["clipboardWrite", "tabs"]
 })
 
 export default defineConfig({

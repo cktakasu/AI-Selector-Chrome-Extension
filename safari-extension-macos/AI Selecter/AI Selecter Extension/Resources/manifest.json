@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "AI Selecter",
+  "version": "1.0.0",
+  "description": "Simple launcher for AI services",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "AI Selecter",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "16": "icon.png",
+    "32": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "permissions": [
+    "clipboardWrite",
+    "tabs"
+  ]
+}
