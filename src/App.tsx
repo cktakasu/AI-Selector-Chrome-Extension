@@ -3,7 +3,6 @@ import { links } from './data/links'
 import modelUpdates from '../public/model_updates.json'
 import { AIIcon } from './components/AIIcon'
 import { PromptInput } from './components/PromptInput'
-import { Footer } from './components/Footer'
 import { usePrompt } from './hooks/usePrompt'
 
 const isNew = (date?: string | null) =>
@@ -37,14 +36,11 @@ function App() {
     }, [prompt, copyToClipboard])
 
     return (
-        <main className="flex flex-col items-center justify-center p-3 bg-[var(--bg-card)] rounded-2xl m-1 border border-[var(--border-subtle)] min-w-[260px] relative overflow-hidden">
+        <main className="flex flex-col items-center justify-center p-3 bg-[var(--bg-card)] rounded-2xl m-1 border border-[var(--border-subtle)] min-w-[260px] relative overflow-hidden gap-3">
             {/* Background */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 bg-[radial-gradient(circle_at_50%_0%,var(--color-primary),transparent_70%)]" />
 
-            {/* Prompt Input - Always visible */}
-            <PromptInput prompt={prompt} setPrompt={setPrompt} />
-
-            {/* Grid */}
+            {/* Grid - Now at the top */}
             <div className="grid grid-cols-5 gap-x-1.5 gap-y-2 w-max p-0.5 relative z-10">
                 {rawItems.map((link) => (
                     <AIIcon
@@ -55,8 +51,8 @@ function App() {
                 ))}
             </div>
 
-            {/* Footer */}
-            <Footer />
+            {/* Prompt Input - Moved below icons */}
+            <PromptInput prompt={prompt} setPrompt={setPrompt} />
         </main>
     )
 }
