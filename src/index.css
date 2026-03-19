@@ -32,20 +32,11 @@ body,
   overflow: hidden;
 }
 
-/* Premium Animations Removed for Speed */
-
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) rgba(255, 255, 255, 0.05);
 }
-
-.animate-gradient {
-  background-size: 200% auto;
-  animation: gradient-shift 3s linear infinite;
-}
-
-/* Custom Scrollbar for Textarea */
 ::-webkit-scrollbar {
   width: 4px;
 }

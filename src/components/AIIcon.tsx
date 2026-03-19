@@ -1,15 +1,9 @@
 import React from 'react';
+import { Link } from '../data/links';
 
 interface AIIconProps {
-    link: {
-        id: string;
-        name: string;
-        icon?: string;
-        url: string;
-        searchUrl?: string; // Added to match processed items
-        isNew: boolean;
-    };
-    onOpen: (link: any) => void;
+    link: Link;
+    onOpen: (link: Link) => void;
 }
 
 export const AIIcon: React.FC<AIIconProps> = React.memo(({ link, onOpen }) => {
@@ -19,17 +13,10 @@ export const AIIcon: React.FC<AIIconProps> = React.memo(({ link, onOpen }) => {
         <div className="relative group flex flex-col items-center">
             <button
                 onClick={() => onOpen(link)}
-                className="relative flex flex-col items-center justify-center rounded-[10px] w-[42px] h-[42px] overflow-visible border bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20 active:scale-95"
+                className="relative flex flex-col items-center justify-center rounded-[10px] w-[42px] h-[42px] border bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20 active:scale-95"
                 title={link.id.toUpperCase()}
             >
-                {/* NEW badge */}
-                {link.isNew && (
-                    <span className="absolute -top-1 -right-1 z-10 rounded-md px-1 py-0.5 bg-gradient-to-r from-sky-500 to-blue-600 text-[8px] scale-[0.75] font-black text-white uppercase tracking-wider shadow-lg border border-white/20 origin-top-right">
-                        NEW
-                    </span>
-                )}
-
-                <div className="w-[34px] h-[34px] bg-slate-100 rounded-[6px] p-[2px] shadow-inner flex items-center justify-center overflow-hidden">
+                <div className="w-[34px] h-[34px] bg-white rounded-[6px] p-[2px] shadow-inner flex items-center justify-center overflow-hidden">
                     {!iconError ? (
                         <img
                             src={`/icons/${link.icon}`}
@@ -45,7 +32,7 @@ export const AIIcon: React.FC<AIIconProps> = React.memo(({ link, onOpen }) => {
                     )}
                 </div>
             </button>
-            <span className="mt-0.5 text-[8.5px] font-semibold text-white/30 tracking-tight text-center w-[44px] truncate px-0.5 leading-none">
+            <span className="mt-0.5 text-[8px] font-semibold text-white/90 tracking-tight text-center w-[58px] leading-none whitespace-nowrap overflow-hidden text-ellipsis">
                 {link.name}
             </span>
         </div>

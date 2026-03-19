@@ -1,22 +1,15 @@
-import { useMemo, useCallback } from 'react'
-import { links } from './data/links'
-import modelUpdates from '../public/model_updates.json'
+import { useCallback, useRef } from 'react'
+import { links, Link } from './data/links'
 import { AIIcon } from './components/AIIcon'
 import { PromptInput } from './components/PromptInput'
 import { usePrompt } from './hooks/usePrompt'
 
-const isNew = (date?: string | null) =>
-    !!date && Date.now() - new Date(date).getTime() < 5 * 24 * 60 * 60 * 1000
-
-const getProcessedItems = () => links.map((link) => ({
-    ...link,
-    updatedAt: (modelUpdates as Record<string, string>)[link.id] || link.updatedAt,
-    isNew: isNew((modelUpdates as Record<string, string>)[link.id] || link.updatedAt),
-}))
+const chromeStorage = typeof chrome !== 'undefined' && chrome.storage ? chrome.storage : null
+const chromeTabs = typeof chrome !== 'undefined' && chrome.tabs ? chrome.tabs : null
 
 const openUrl = (url: string) => {
-    if (typeof chrome !== 'undefined' && chrome.tabs) {
-        chrome.tabs.create({ url });
+    if (chromeTabs) {
+        chromeTabs.create({ url });
     } else {
         window.open(url, '_blank');
     }
@@ -24,25 +17,32 @@ const openUrl = (url: string) => {
 
 function App() {
     const { prompt, setPrompt, copyToClipboard } = usePrompt();
-    const rawItems = useMemo(() => getProcessedItems(), [])
+    const promptRef = useRef(prompt);
+    promptRef.current = prompt;
 
-    const handleIconClick = useCallback(async (link: typeof rawItems[0]) => {
-        await copyToClipboard(prompt);
+    const handleIconClick = useCallback(async (link: Link) => {
+        const p = promptRef.current;
+        await copyToClipboard(p);
 
-        const url = prompt && link.searchUrl
-            ? `${link.searchUrl}${encodeURIComponent(prompt)}`
-            : link.url
-        openUrl(url)
-    }, [prompt, copyToClipboard])
+        if (p && link.searchUrl) {
+            openUrl(`${link.searchUrl}${encodeURIComponent(p)}`);
+            return;
+        }
+        if (p && chromeStorage) {
+            await chromeStorage.local.set({
+                pendingPrompt: p,
+                timestamp: Date.now()
+            });
+        }
+        openUrl(link.url);
+    }, [copyToClipboard])
 
     return (
         <main className="flex flex-col items-center justify-center p-3 bg-[var(--bg-card)] rounded-2xl m-1 border border-[var(--border-subtle)] min-w-[260px] relative overflow-hidden gap-3">
-            {/* Background */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 bg-[radial-gradient(circle_at_50%_0%,var(--color-primary),transparent_70%)]" />
 
-            {/* Grid - Now at the top */}
             <div className="grid grid-cols-5 gap-x-1.5 gap-y-2 w-max p-0.5 relative z-10">
-                {rawItems.map((link) => (
+                {links.map((link) => (
                     <AIIcon
                         key={link.id}
                         link={link}
@@ -51,7 +51,6 @@ function App() {
                 ))}
             </div>
 
-            {/* Prompt Input - Moved below icons */}
             <PromptInput prompt={prompt} setPrompt={setPrompt} />
         </main>
     )

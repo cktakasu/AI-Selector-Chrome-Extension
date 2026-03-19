@@ -16,6 +16,35 @@
   },
   "permissions": [
     "clipboardWrite",
-    "tabs"
+    "tabs",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "js": [
+        "assets/content-script.js-DviU2X_d.js"
+      ],
+      "matches": [
+        "https://claude.ai/*",
+        "https://gemini.google.com/*",
+        "https://manus.im/*",
+        "https://www.genspark.ai/*"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "https://claude.ai/*",
+        "https://gemini.google.com/*",
+        "https://manus.im/*",
+        "https://www.genspark.ai/*"
+      ],
+      "resources": [
+        "assets/content-script.js-DviU2X_d.js"
+      ],
+      "use_dynamic_url": false
+    }
   ]
 }

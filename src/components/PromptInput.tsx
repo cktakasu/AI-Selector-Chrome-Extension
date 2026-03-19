@@ -5,7 +5,7 @@ interface PromptInputProps {
     setPrompt: (value: string) => void;
 }
 
-export const PromptInput: React.FC<PromptInputProps> = ({ prompt, setPrompt }) => {
+export const PromptInput: React.FC<PromptInputProps> = React.memo(({ prompt, setPrompt }) => {
     return (
         <div className="w-full relative z-10 mb-2">
             <textarea
@@ -24,4 +24,4 @@ export const PromptInput: React.FC<PromptInputProps> = ({ prompt, setPrompt }) =
             )}
         </div>
     );
-};
+});

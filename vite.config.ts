@@ -10,15 +10,25 @@ const manifest = defineManifest({
   action: {
     default_popup: "index.html",
     default_title: "AI Selecter",
-    default_icon: "icon.png"
+    default_icon: "icon-48.png"
   },
   icons: {
-    "16": "icon.png",
-    "32": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
+    "16": "icon-16.png",
+    "32": "icon-32.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
   },
-  permissions: ["clipboardWrite", "tabs"]
+  permissions: ["clipboardWrite", "tabs", "storage"],
+  content_scripts: [{
+    matches: [
+      "https://claude.ai/*",
+      "https://gemini.google.com/*",
+      "https://manus.im/*",
+      "https://www.genspark.ai/*"
+    ],
+    js: ["src/content-script.js"],
+    run_at: "document_idle"
+  }]
 })
 
 export default defineConfig({
@@ -33,18 +43,12 @@ export default defineConfig({
     cors: true,
   },
   build: {
+    reportCompressedSize: false,
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
-      },
-    },
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-        },
       },
     },
   },
