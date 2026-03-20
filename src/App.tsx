@@ -8,7 +8,7 @@ import pkg from '../package.json'
 import {
     DndContext,
     closestCenter,
-    MouseSensor,
+    PointerSensor,
     TouchSensor,
     useSensor,
     useSensors,
@@ -17,22 +17,8 @@ import {
 } from '@dnd-kit/core'
 import {
     SortableContext,
-    SortingStrategy,
+    rectSwappingStrategy,
 } from '@dnd-kit/sortable'
-
-// 2つのアイテムだけをスワップするストラテジー（中間アイテムをシフトしない）
-const swapStrategy: SortingStrategy = ({ activeIndex, overIndex, index, rects }) => {
-    if (activeIndex === overIndex || index !== overIndex) return null;
-    const activeRect = rects[activeIndex];
-    const overRect = rects[overIndex];
-    if (!activeRect || !overRect) return null;
-    return {
-        x: activeRect.left - overRect.left,
-        y: activeRect.top - overRect.top,
-        scaleX: 1,
-        scaleY: 1,
-    };
-};
 
 const chromeStorage = typeof chrome !== 'undefined' && chrome.storage ? chrome.storage : null
 const chromeTabs = typeof chrome !== 'undefined' && chrome.tabs ? chrome.tabs : null
@@ -53,7 +39,7 @@ function App() {
     const isDraggingRef = useRef(false);
 
     const sensors = useSensors(
-        useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
+        useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
         useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
     );
 
@@ -99,8 +85,8 @@ function App() {
     }, [copyToClipboard])
 
     return (
-        <main className="flex flex-col items-center justify-center p-2 bg-[var(--bg-card)] rounded-2xl m-1 border border-[var(--border-subtle)] min-w-[240px] relative overflow-hidden gap-2">
-            <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 bg-[radial-gradient(circle_at_50%_0%,var(--color-primary),transparent_70%)]" />
+        <main className="flex flex-col items-center justify-center p-2 bg-[var(--bg-card)] rounded-2xl m-1 border border-[var(--border-subtle)] min-w-[240px] relative gap-2">
+            <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(circle_at_50%_0%,var(--color-primary),transparent_70%)] rounded-2xl overflow-hidden" />
 
             <DndContext
                 sensors={sensors}
@@ -109,7 +95,7 @@ function App() {
                 onDragEnd={handleDragEnd}
                 onDragCancel={() => { isDraggingRef.current = false; }}
             >
-                <SortableContext items={allLinks.map(l => l.id)} strategy={swapStrategy}>
+                <SortableContext items={allLinks.map(l => l.id)} strategy={rectSwappingStrategy}>
                     <div className="grid grid-cols-5 gap-x-0.5 gap-y-0.5 w-max relative z-10">
                         {allLinks.map((link) => (
                             <AIIcon
