@@ -1,11 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { crx, defineManifest } from '@crxjs/vite-plugin'
+import pkg from './package.json' with { type: 'json' }
 
 const manifest = defineManifest({
   manifest_version: 3,
   name: "AI Selecter",
-  version: "1.0.0",
+  version: pkg.version,
   description: "Simple launcher for AI services",
   action: {
     default_popup: "index.html",
