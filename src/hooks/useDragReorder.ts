@@ -1,60 +1,63 @@
 import { useState, useRef, useCallback, useEffect, RefObject } from 'react';
 
-export interface SwapAnimation {
-    fromIndex: number;
-    toIndex: number;
-    fromOffset: { x: number; y: number };
-    toOffset: { x: number; y: number };
-}
+interface Offset { x: number; y: number }
 
 interface UseDragReorderReturn {
     dragIndex: number | null;
-    dragOffset: { x: number; y: number };
-    liveOverIndex: number | null;
-    liveOverOffset: { x: number; y: number };
-    swapAnimation: SwapAnimation | null;
+    dragOffset: Offset;
+    isDropping: boolean;
+    shiftOffsets: Record<number, Offset>;
     checkWasDragged: () => boolean;
     handlePointerDown: (index: number, e: React.PointerEvent) => void;
     containerRef: RefObject<HTMLDivElement | null>;
 }
 
-const ACTIVATION_DISTANCE = 5;
-const ACTIVATION_DISTANCE_SQ = ACTIVATION_DISTANCE * ACTIVATION_DISTANCE;
-const SWAP_DURATION = 200;
-
-// rect間のオフセット計算ヘルパー
-const rectOffset = (from: DOMRect, to: DOMRect) => ({
-    x: to.left - from.left,
-    y: to.top - from.top,
-});
+const ACTIVATION_DISTANCE_SQ = 25; // 5px
+const ANIMATION_DURATION = 200;
 
 export function useDragReorder(
     items: { id: string }[],
     onReorder: (newOrder: string[]) => void,
 ): UseDragReorderReturn {
     const [dragIndex, setDragIndex] = useState<number | null>(null);
-    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-    const [liveOverIndex, setLiveOverIndex] = useState<number | null>(null);
-    const [liveOverOffset, setLiveOverOffset] = useState({ x: 0, y: 0 });
-    const [swapAnimation, setSwapAnimation] = useState<SwapAnimation | null>(null);
+    const [dragOffset, setDragOffset] = useState<Offset>({ x: 0, y: 0 });
+    const [isDropping, setIsDropping] = useState(false);
+    const [shiftOffsets, setShiftOffsets] = useState<Record<number, Offset>>({});
     const wasDraggedRef = useRef(false);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
     const startPos = useRef({ x: 0, y: 0 });
     const activated = useRef(false);
     const dragIndexRef = useRef<number | null>(null);
-    const overIndexRef = useRef<number | null>(null);
+    const dragOriginalIndexRef = useRef<number | null>(null);
     const itemsRef = useRef(items);
     const onReorderRef = useRef(onReorder);
-    const swapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const animTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const dragFlagTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const rectsRef = useRef<DOMRect[]>([]);
+    // liveOrder[position] = originalIndex — ドラッグ中の並び順を追跡
+    const liveOrderRef = useRef<number[]>([]);
 
     itemsRef.current = items;
     onReorderRef.current = onReorder;
 
+    // liveOrder から各アイテムのビジュアルオフセットを計算
+    const computeOffsets = (order: number[], dragOrigIdx: number): Record<number, Offset> => {
+        const rects = rectsRef.current;
+        const offsets: Record<number, Offset> = {};
+        for (let pos = 0; pos < order.length; pos++) {
+            const origIdx = order[pos];
+            if (origIdx !== dragOrigIdx && pos !== origIdx) {
+                offsets[origIdx] = {
+                    x: rects[pos].left - rects[origIdx].left,
+                    y: rects[pos].top - rects[origIdx].top,
+                };
+            }
+        }
+        return offsets;
+    };
+
     useEffect(() => {
-        // useEffect内でのみ使用するため、ここで定義（外部公開不要）
         const captureRects = () => {
             const container = containerRef.current;
             if (!container) return;
@@ -63,10 +66,10 @@ export function useDragReorder(
             );
         };
 
-        const findOverIndex = (clientX: number, clientY: number): number | null => {
+        // 元の位置rect でポインタがどの枠にいるか判定
+        const findPosition = (clientX: number, clientY: number): number | null => {
             const rects = rectsRef.current;
             for (let i = 0; i < rects.length; i++) {
-                if (i === dragIndexRef.current) continue;
                 const rect = rects[i];
                 if (
                     clientX >= rect.left && clientX <= rect.right &&
@@ -88,6 +91,8 @@ export function useDragReorder(
                     activated.current = true;
                     wasDraggedRef.current = true;
                     captureRects();
+                    liveOrderRef.current = itemsRef.current.map((_, i) => i);
+                    dragOriginalIndexRef.current = dragIndexRef.current;
                     setDragIndex(dragIndexRef.current);
                     document.body.style.cursor = 'grabbing';
                     document.body.style.userSelect = 'none';
@@ -100,66 +105,74 @@ export function useDragReorder(
                 y: e.clientY - startPos.current.y,
             });
 
-            const over = findOverIndex(e.clientX, e.clientY);
-            if (over !== overIndexRef.current) {
-                overIndexRef.current = over;
-
-                if (over !== null && dragIndexRef.current !== null) {
-                    const dragRect = rectsRef.current[dragIndexRef.current];
-                    const overRect = rectsRef.current[over];
-                    if (dragRect && overRect) {
-                        setLiveOverIndex(over);
-                        setLiveOverOffset(rectOffset(overRect, dragRect));
-                    }
-                } else {
-                    setLiveOverIndex(null);
-                    setLiveOverOffset({ x: 0, y: 0 });
+            // ポインタが入った枠のアイテムと、ドラッグアイテムを入れ替え
+            const pos = findPosition(e.clientX, e.clientY);
+            if (pos !== null) {
+                const dragOrigIdx = dragOriginalIndexRef.current!;
+                const order = liveOrderRef.current;
+                if (order[pos] !== dragOrigIdx) {
+                    const dragPos = order.indexOf(dragOrigIdx);
+                    const newOrder = [...order];
+                    [newOrder[dragPos], newOrder[pos]] = [newOrder[pos], newOrder[dragPos]];
+                    liveOrderRef.current = newOrder;
+                    setShiftOffsets(computeOffsets(newOrder, dragOrigIdx));
                 }
             }
         };
 
         const onUp = () => {
-            const di = dragIndexRef.current;
-            const oi = overIndexRef.current;
+            const dragOrigIdx = dragOriginalIndexRef.current;
             const wasActivated = activated.current;
 
             document.body.style.cursor = '';
             document.body.style.userSelect = '';
-            setLiveOverIndex(null);
-            setLiveOverOffset({ x: 0, y: 0 });
-            // dragIndex / dragOffset は常にリセット（スワップの有無に関わらず）
-            setDragIndex(null);
-            setDragOffset({ x: 0, y: 0 });
 
-            if (wasActivated && di !== null && oi !== null && oi !== di) {
-                const fromRect = rectsRef.current[di];
-                const toRect = rectsRef.current[oi];
-                setSwapAnimation({
-                    fromIndex: di,
-                    toIndex: oi,
-                    fromOffset: rectOffset(fromRect, toRect),
-                    toOffset: rectOffset(toRect, fromRect),
-                });
+            if (wasActivated && dragOrigIdx !== null) {
+                const order = liveOrderRef.current;
+                const dragPos = order.indexOf(dragOrigIdx);
 
-                if (swapTimeoutRef.current) clearTimeout(swapTimeoutRef.current);
-                swapTimeoutRef.current = setTimeout(() => {
-                    const swapped = [...itemsRef.current];
-                    [swapped[di], swapped[oi]] = [swapped[oi], swapped[di]];
-                    onReorderRef.current(swapped.map(item => item.id));
-                    setSwapAnimation(null);
-                    swapTimeoutRef.current = null;
-                }, SWAP_DURATION);
+                if (dragPos !== dragOrigIdx) {
+                    // ドロップアニメーション: ドラッグアイテムを最終位置へ滑らせる
+                    const targetOffset: Offset = {
+                        x: rectsRef.current[dragPos].left - rectsRef.current[dragOrigIdx].left,
+                        y: rectsRef.current[dragPos].top - rectsRef.current[dragOrigIdx].top,
+                    };
+                    setIsDropping(true);
+                    setDragOffset(targetOffset);
+
+                    if (animTimeoutRef.current) clearTimeout(animTimeoutRef.current);
+                    animTimeoutRef.current = setTimeout(() => {
+                        // liveOrder を元に新しい並び順をコミット
+                        const newItems = order.map(origIdx => itemsRef.current[origIdx]);
+                        onReorderRef.current(newItems.map(item => item.id));
+
+                        setIsDropping(false);
+                        setDragIndex(null);
+                        setDragOffset({ x: 0, y: 0 });
+                        setShiftOffsets({});
+                        animTimeoutRef.current = null;
+                    }, ANIMATION_DURATION);
+                } else {
+                    // 位置変更なし
+                    setDragIndex(null);
+                    setDragOffset({ x: 0, y: 0 });
+                    setShiftOffsets({});
+                }
+            } else {
+                setDragIndex(null);
+                setDragOffset({ x: 0, y: 0 });
+                setShiftOffsets({});
             }
 
-            overIndexRef.current = null;
             activated.current = false;
             dragIndexRef.current = null;
+            dragOriginalIndexRef.current = null;
 
             if (dragFlagTimeoutRef.current) clearTimeout(dragFlagTimeoutRef.current);
             dragFlagTimeoutRef.current = setTimeout(() => {
                 wasDraggedRef.current = false;
                 dragFlagTimeoutRef.current = null;
-            }, SWAP_DURATION + 50);
+            }, ANIMATION_DURATION + 50);
         };
 
         document.addEventListener('pointermove', onMove);
@@ -167,10 +180,10 @@ export function useDragReorder(
         return () => {
             document.removeEventListener('pointermove', onMove);
             document.removeEventListener('pointerup', onUp);
-            if (swapTimeoutRef.current) clearTimeout(swapTimeoutRef.current);
+            if (animTimeoutRef.current) clearTimeout(animTimeoutRef.current);
             if (dragFlagTimeoutRef.current) clearTimeout(dragFlagTimeoutRef.current);
         };
-    }, []); // すべての参照は stable な ref のため deps 不要
+    }, []);
 
     const handlePointerDown = useCallback((index: number, e: React.PointerEvent) => {
         e.preventDefault();
@@ -185,9 +198,8 @@ export function useDragReorder(
     return {
         dragIndex,
         dragOffset,
-        liveOverIndex,
-        liveOverOffset,
-        swapAnimation,
+        isDropping,
+        shiftOffsets,
         checkWasDragged,
         handlePointerDown,
         containerRef,

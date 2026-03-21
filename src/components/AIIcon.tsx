@@ -1,31 +1,29 @@
 import React from 'react';
 import { Link } from '../data/links';
-import type { SwapAnimation } from '../hooks/useDragReorder';
+
+interface Offset { x: number; y: number }
 
 interface AIIconProps {
     link: Link;
     index: number;
     isDragging: boolean;
-    dragOffset: { x: number; y: number };
-    liveOverIndex: number | null;
-    liveOverOffset: { x: number; y: number };
-    swapAnimation: SwapAnimation | null;
+    isDropping: boolean;
+    dragOffset: Offset;
+    shiftOffset?: Offset;
     onOpen: (link: Link) => void;
     onDragStart: (index: number, e: React.PointerEvent) => void;
 }
 
-const TRANSITION_FAST = 'transform 150ms ease-out';
-const TRANSITION_SWAP = 'transform 200ms ease-out';
+const TRANSITION_SHIFT = 'transform 150ms ease-out';
+const TRANSITION_DROP = 'transform 200ms ease-out';
 
 function computeStyle(
-    index: number,
     isDragging: boolean,
-    dragOffset: { x: number; y: number },
-    liveOverIndex: number | null,
-    liveOverOffset: { x: number; y: number },
-    swapAnimation: SwapAnimation | null,
+    isDropping: boolean,
+    dragOffset: Offset,
+    shiftOffset?: Offset,
 ): React.CSSProperties | undefined {
-    if (isDragging) {
+    if (isDragging && !isDropping) {
         return {
             transform: `translate(${dragOffset.x}px, ${dragOffset.y}px) scale(1.08)`,
             zIndex: 50,
@@ -33,40 +31,29 @@ function computeStyle(
             filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.4))',
         };
     }
-    if (swapAnimation) {
-        const isFrom = index === swapAnimation.fromIndex;
-        const isTo = index === swapAnimation.toIndex;
-        if (isFrom || isTo) {
-            const offset = isFrom ? swapAnimation.fromOffset : swapAnimation.toOffset;
-            return {
-                transform: `translate(${offset.x}px, ${offset.y}px)`,
-                transition: TRANSITION_SWAP,
-                zIndex: 40,
-                position: 'relative',
-            };
-        }
-    }
-    if (index === liveOverIndex) {
+    if (isDragging && isDropping) {
         return {
-            transform: `translate(${liveOverOffset.x}px, ${liveOverOffset.y}px)`,
-            transition: TRANSITION_FAST,
-            zIndex: 30,
+            transform: `translate(${dragOffset.x}px, ${dragOffset.y}px)`,
+            transition: TRANSITION_DROP,
+            zIndex: 50,
             position: 'relative',
         };
     }
-    if (liveOverIndex !== null) {
-        return { transform: 'translate(0, 0)', transition: TRANSITION_FAST };
+    if (shiftOffset) {
+        return {
+            transform: `translate(${shiftOffset.x}px, ${shiftOffset.y}px)`,
+            transition: TRANSITION_SHIFT,
+        };
     }
     return undefined;
 }
 
 export const AIIcon: React.FC<AIIconProps> = React.memo(({
-    link, index, isDragging, dragOffset,
-    liveOverIndex, liveOverOffset, swapAnimation,
+    link, index, isDragging, isDropping, dragOffset, shiftOffset,
     onOpen, onDragStart,
 }) => {
     const [iconError, setIconError] = React.useState(false);
-    const style = computeStyle(index, isDragging, dragOffset, liveOverIndex, liveOverOffset, swapAnimation);
+    const style = computeStyle(isDragging, isDropping, dragOffset, shiftOffset);
 
     return (
         <div className="relative group flex flex-col items-center" style={style}>

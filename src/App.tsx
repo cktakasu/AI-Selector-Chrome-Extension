@@ -34,7 +34,7 @@ function App() {
         return [...orderedLinks, ...newLinks];
     }, [order]);
 
-    const { dragIndex, dragOffset, liveOverIndex, liveOverOffset, swapAnimation, checkWasDragged, handlePointerDown, containerRef } = useDragReorder(allLinks, updateOrder);
+    const { dragIndex, dragOffset, isDropping, shiftOffsets, checkWasDragged, handlePointerDown, containerRef } = useDragReorder(allLinks, updateOrder);
 
     const handleIconClick = useCallback(async (link: Link) => {
         if (checkWasDragged()) return;
@@ -65,10 +65,9 @@ function App() {
                         link={link}
                         index={i}
                         isDragging={dragIndex === i}
+                        isDropping={isDropping && dragIndex === i}
                         dragOffset={dragIndex === i ? dragOffset : ZERO_OFFSET}
-                        liveOverIndex={liveOverIndex}
-                        liveOverOffset={liveOverOffset}
-                        swapAnimation={swapAnimation}
+                        shiftOffset={shiftOffsets[i]}
                         onOpen={handleIconClick}
                         onDragStart={handlePointerDown}
                     />
