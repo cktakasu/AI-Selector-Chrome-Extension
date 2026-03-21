@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { links } from '../data/links';
 
 const STORAGE_KEY = 'aiSelectorOrder';
@@ -35,10 +35,10 @@ export const useOrder = () => {
         loadOrder().then(setOrder);
     }, []);
 
-    const updateOrder = (newOrder: string[]) => {
+    const updateOrder = useCallback((newOrder: string[]) => {
         setOrder(newOrder);
         saveOrder(newOrder);
-    };
+    }, []);
 
     return { order, updateOrder };
 };

@@ -1,28 +1,77 @@
 import React from 'react';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 import { Link } from '../data/links';
+import type { SwapAnimation } from '../hooks/useDragReorder';
 
 interface AIIconProps {
     link: Link;
+    index: number;
+    isDragging: boolean;
+    dragOffset: { x: number; y: number };
+    liveOverIndex: number | null;
+    liveOverOffset: { x: number; y: number };
+    swapAnimation: SwapAnimation | null;
     onOpen: (link: Link) => void;
+    onDragStart: (index: number, e: React.PointerEvent) => void;
 }
 
-export const AIIcon: React.FC<AIIconProps> = React.memo(({ link, onOpen }) => {
-    const [iconError, setIconError] = React.useState(false);
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: link.id });
+const TRANSITION_FAST = 'transform 150ms ease-out';
+const TRANSITION_SWAP = 'transform 200ms ease-out';
 
-    const style: React.CSSProperties = {
-        transform: CSS.Transform.toString(transform),
-        transition,
-        opacity: isDragging ? 0.4 : 1,
-        zIndex: isDragging ? 10 : undefined,
-    };
+function computeStyle(
+    index: number,
+    isDragging: boolean,
+    dragOffset: { x: number; y: number },
+    liveOverIndex: number | null,
+    liveOverOffset: { x: number; y: number },
+    swapAnimation: SwapAnimation | null,
+): React.CSSProperties | undefined {
+    if (isDragging) {
+        return {
+            transform: `translate(${dragOffset.x}px, ${dragOffset.y}px) scale(1.08)`,
+            zIndex: 50,
+            position: 'relative',
+            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.4))',
+        };
+    }
+    if (swapAnimation) {
+        const isFrom = index === swapAnimation.fromIndex;
+        const isTo = index === swapAnimation.toIndex;
+        if (isFrom || isTo) {
+            const offset = isFrom ? swapAnimation.fromOffset : swapAnimation.toOffset;
+            return {
+                transform: `translate(${offset.x}px, ${offset.y}px)`,
+                transition: TRANSITION_SWAP,
+                zIndex: 40,
+                position: 'relative',
+            };
+        }
+    }
+    if (index === liveOverIndex) {
+        return {
+            transform: `translate(${liveOverOffset.x}px, ${liveOverOffset.y}px)`,
+            transition: TRANSITION_FAST,
+            zIndex: 30,
+            position: 'relative',
+        };
+    }
+    if (liveOverIndex !== null) {
+        return { transform: 'translate(0, 0)', transition: TRANSITION_FAST };
+    }
+    return undefined;
+}
+
+export const AIIcon: React.FC<AIIconProps> = React.memo(({
+    link, index, isDragging, dragOffset,
+    liveOverIndex, liveOverOffset, swapAnimation,
+    onOpen, onDragStart,
+}) => {
+    const [iconError, setIconError] = React.useState(false);
+    const style = computeStyle(index, isDragging, dragOffset, liveOverIndex, liveOverOffset, swapAnimation);
 
     return (
-        <div ref={setNodeRef} style={style} {...attributes} className="relative group flex flex-col items-center">
+        <div className="relative group flex flex-col items-center" style={style}>
             <button
-                {...listeners}
+                onPointerDown={(e) => onDragStart(index, e)}
                 onClick={() => onOpen(link)}
                 className="relative flex flex-col items-center justify-center rounded-[8px] w-[38px] h-[38px] border bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20 active:scale-95 cursor-grab active:cursor-grabbing"
                 title={link.name}

@@ -1,27 +1,15 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import { links, Link } from './data/links'
 import { AIIcon } from './components/AIIcon'
 import { PromptInput } from './components/PromptInput'
 import { usePrompt } from './hooks/usePrompt'
 import { useOrder } from './hooks/useOrder'
+import { useDragReorder } from './hooks/useDragReorder'
 import pkg from '../package.json'
-import {
-    DndContext,
-    closestCenter,
-    PointerSensor,
-    TouchSensor,
-    useSensor,
-    useSensors,
-    DragEndEvent,
-    DragStartEvent,
-} from '@dnd-kit/core'
-import {
-    SortableContext,
-    rectSwappingStrategy,
-} from '@dnd-kit/sortable'
 
 const chromeStorage = typeof chrome !== 'undefined' && chrome.storage ? chrome.storage : null
 const chromeTabs = typeof chrome !== 'undefined' && chrome.tabs ? chrome.tabs : null
+const ZERO_OFFSET = { x: 0, y: 0 }
 
 const openUrl = (url: string) => {
     if (chromeTabs) {
@@ -36,38 +24,20 @@ function App() {
     const { order, updateOrder } = useOrder();
     const promptRef = useRef(prompt);
     promptRef.current = prompt;
-    const isDraggingRef = useRef(false);
 
-    const sensors = useSensors(
-        useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-        useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
-    );
+    const allLinks = useMemo(() => {
+        const knownIds = new Set(order);
+        const orderedLinks = order
+            .map(id => links.find(l => l.id === id))
+            .filter((l): l is Link => l !== undefined);
+        const newLinks = links.filter(l => !knownIds.has(l.id));
+        return [...orderedLinks, ...newLinks];
+    }, [order]);
 
-    const orderedLinks = order
-        .map(id => links.find(l => l.id === id))
-        .filter((l): l is Link => l !== undefined);
-    const knownIds = new Set(order);
-    const newLinks = links.filter(l => !knownIds.has(l.id));
-    const allLinks = [...orderedLinks, ...newLinks];
-
-    const handleDragStart = (_event: DragStartEvent) => {
-        isDraggingRef.current = true;
-    };
-
-    const handleDragEnd = (event: DragEndEvent) => {
-        isDraggingRef.current = false;
-        const { active, over } = event;
-        if (over && active.id !== over.id) {
-            const oldIndex = allLinks.findIndex(l => l.id === active.id);
-            const newIndex = allLinks.findIndex(l => l.id === over.id);
-            const swapped = [...allLinks];
-            [swapped[oldIndex], swapped[newIndex]] = [swapped[newIndex], swapped[oldIndex]];
-            updateOrder(swapped.map(l => l.id));
-        }
-    };
+    const { dragIndex, dragOffset, liveOverIndex, liveOverOffset, swapAnimation, checkWasDragged, handlePointerDown, containerRef } = useDragReorder(allLinks, updateOrder);
 
     const handleIconClick = useCallback(async (link: Link) => {
-        if (isDraggingRef.current) return;
+        if (checkWasDragged()) return;
         const p = promptRef.current;
         await copyToClipboard(p);
 
@@ -82,31 +52,28 @@ function App() {
             });
         }
         openUrl(link.url);
-    }, [copyToClipboard])
+    }, [copyToClipboard, checkWasDragged])
 
     return (
         <main className="flex flex-col items-center justify-center p-2 bg-[var(--bg-card)] rounded-2xl m-1 border border-[var(--border-subtle)] min-w-[240px] relative gap-2">
             <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(circle_at_50%_0%,var(--color-primary),transparent_70%)] rounded-2xl overflow-hidden" />
 
-            <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
-                onDragCancel={() => { isDraggingRef.current = false; }}
-            >
-                <SortableContext items={allLinks.map(l => l.id)} strategy={rectSwappingStrategy}>
-                    <div className="grid grid-cols-5 gap-x-0.5 gap-y-0.5 w-max relative z-10">
-                        {allLinks.map((link) => (
-                            <AIIcon
-                                key={link.id}
-                                link={link}
-                                onOpen={handleIconClick}
-                            />
-                        ))}
-                    </div>
-                </SortableContext>
-            </DndContext>
+            <div ref={containerRef} className="grid grid-cols-5 gap-x-0.5 gap-y-0.5 w-max relative z-10">
+                {allLinks.map((link, i) => (
+                    <AIIcon
+                        key={link.id}
+                        link={link}
+                        index={i}
+                        isDragging={dragIndex === i}
+                        dragOffset={dragIndex === i ? dragOffset : ZERO_OFFSET}
+                        liveOverIndex={liveOverIndex}
+                        liveOverOffset={liveOverOffset}
+                        swapAnimation={swapAnimation}
+                        onOpen={handleIconClick}
+                        onDragStart={handlePointerDown}
+                    />
+                ))}
+            </div>
 
             <PromptInput prompt={prompt} setPrompt={setPrompt} />
             <span className="text-[9px] text-white/20 tracking-widest font-mono -mt-2 mb-0.5 select-none">v{pkg.version}</span>

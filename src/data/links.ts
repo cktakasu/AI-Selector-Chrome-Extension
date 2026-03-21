@@ -36,7 +36,7 @@ export const links: Link[] = [
         name: 'Genspark',
         url: 'https://www.genspark.ai/agents?type=ai_chat',
         category: 'Productivity',
-        icon: 'genspark.svg'
+        icon: 'genspark.svg',
     },
     {
         id: 'grok',
@@ -59,7 +59,7 @@ export const links: Link[] = [
         url: 'https://felo.ai',
         searchUrl: 'https://felo.ai/search?q=',
         category: 'Productivity',
-        icon: 'felo.svg'
+        icon: 'felo.svg',
     },
     {
         id: 'gemini',
@@ -74,7 +74,7 @@ export const links: Link[] = [
         url: 'https://chat.deepseek.com/',
         searchUrl: 'https://chat.deepseek.com/?q=',
         category: 'LLM',
-        icon: 'deepseek.png'
+        icon: 'deepseek.png',
     },
     {
         id: 'kimi',
