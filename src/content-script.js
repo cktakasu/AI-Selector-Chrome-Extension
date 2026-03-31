@@ -78,7 +78,10 @@
       if (Date.now() - data.timestamp > MAX_AGE_MS) return;
 
       waitAndFill(data.pendingPrompt, function () {
-        try { storage.local.remove(STORAGE_KEYS); } catch (_) { /* noop */ }
+        // Delay removal to allow multiple tabs to read the pending prompt in multi-select mode
+        setTimeout(function() {
+          try { storage.local.remove(STORAGE_KEYS); } catch (_) { /* noop */ }
+        }, 2000);
       });
     });
   } catch (_) { /* extension context invalidated */ }

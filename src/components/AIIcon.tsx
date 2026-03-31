@@ -6,11 +6,13 @@ interface Offset { x: number; y: number }
 interface AIIconProps {
     link: Link;
     index: number;
+    isSelected?: boolean;
     isDragging: boolean;
     isDropping: boolean;
     dragOffset: Offset;
     shiftOffset?: Offset;
     onOpen: (link: Link) => void;
+    onSelect?: (link: Link) => void;
     onDragStart: (index: number, e: React.PointerEvent) => void;
 }
 
@@ -55,17 +57,21 @@ function computeStyle(
 }
 
 export const AIIcon: React.FC<AIIconProps> = React.memo(({
-    link, index, isDragging, isDropping, dragOffset, shiftOffset,
-    onOpen, onDragStart,
+    link, index, isSelected, isDragging, isDropping, dragOffset, shiftOffset,
+    onOpen, onSelect, onDragStart,
 }) => {
     const [iconError, setIconError] = React.useState(false);
     const style = computeStyle(isDragging, isDropping, dragOffset, shiftOffset);
     const handlePointerDown = React.useCallback((e: React.PointerEvent) => {
         onDragStart(index, e);
     }, [index, onDragStart]);
-    const handleClick = React.useCallback(() => {
+    const handleClick = React.useCallback((e: React.MouseEvent) => {
+        if ((e.ctrlKey || e.metaKey) && onSelect) {
+            onSelect(link);
+            return;
+        }
         onOpen(link);
-    }, [link, onOpen]);
+    }, [link, onOpen, onSelect]);
     const handleIconError = React.useCallback(() => {
         setIconError(true);
     }, []);
@@ -75,9 +81,18 @@ export const AIIcon: React.FC<AIIconProps> = React.memo(({
             <button
                 onPointerDown={handlePointerDown}
                 onClick={handleClick}
-                className="relative flex flex-col items-center justify-center rounded-[13px] w-[48px] h-[48px] border border-white/[0.08] bg-white/[0.04] hover:bg-white/[0.07] active:scale-95 cursor-grab active:cursor-grabbing transition-[background-color] duration-150"
+                className={`relative flex flex-col items-center justify-center rounded-[13px] w-[48px] h-[48px] border bg-white/[0.04] hover:bg-white/[0.07] active:scale-95 cursor-grab active:cursor-grabbing transition-all duration-150 ${
+                    isSelected ? 'border-blue-400/60 bg-blue-500/10 scale-[1.02] shadow-[0_0_12px_rgba(59,130,246,0.3)]' : 'border-white/[0.08]'
+                }`}
                 title={link.name}
             >
+                {isSelected && (
+                    <div className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-md z-20 border border-white/20">
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.33333 2.5L3.75 7.08333L1.66667 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                    </div>
+                )}
                 <div className="w-[36px] h-[36px] rounded-[10px] bg-[#eef0f3] p-[3px] flex items-center justify-center overflow-hidden">
                     {!iconError ? (
                         <img

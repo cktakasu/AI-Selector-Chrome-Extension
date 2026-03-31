@@ -5,6 +5,7 @@ import { PromptInput } from './components/PromptInput'
 import { usePrompt } from './hooks/usePrompt'
 import { useOrder } from './hooks/useOrder'
 import { useDragReorder } from './hooks/useDragReorder'
+import { useMultiSelect } from './hooks/useMultiSelect'
 
 const chromeStorage = typeof chrome !== 'undefined' && chrome.storage ? chrome.storage : null
 const chromeTabs = typeof chrome !== 'undefined' && chrome.tabs ? chrome.tabs : null
@@ -22,6 +23,7 @@ const openUrl = (url: string) => {
 function App() {
     const { prompt, setPrompt, copyToClipboard } = usePrompt();
     const { order, updateOrder } = useOrder();
+    const { selectedIds, toggleSelect, clearSelection, isMultiSelectMode } = useMultiSelect();
     const promptRef = useRef(prompt);
     promptRef.current = prompt;
 
@@ -35,6 +37,29 @@ function App() {
     }, [order]);
 
     const { dragIndex, dragOffset, isDropping, shiftOffsets, checkWasDragged, handlePointerDown, containerRef } = useDragReorder(allLinks, updateOrder);
+
+    const handleMultiSubmit = useCallback(async () => {
+        const p = promptRef.current;
+        if (!p || !isMultiSelectMode) return;
+        await copyToClipboard(p);
+
+        const selectedLinks = allLinks.filter(l => selectedIds.has(l.id));
+        for (const link of selectedLinks) {
+            if (link.searchUrl) {
+                openUrl(`${link.searchUrl}${encodeURIComponent(p)}`);
+            } else {
+                if (chromeStorage) {
+                    await chromeStorage.local.set({
+                        pendingPrompt: p,
+                        timestamp: Date.now()
+                    });
+                }
+                openUrl(link.url);
+            }
+        }
+        clearSelection();
+        setPrompt('');
+    }, [isMultiSelectMode, selectedIds, allLinks, copyToClipboard, clearSelection, setPrompt]);
 
     const handleIconClick = useCallback(async (link: Link) => {
         if (checkWasDragged()) return;
@@ -62,18 +87,25 @@ function App() {
                         key={link.id}
                         link={link}
                         index={i}
+                        isSelected={selectedIds.has(link.id)}
                         isDragging={dragIndex === i}
                         isDropping={isDropping && dragIndex === i}
                         dragOffset={dragIndex === i ? dragOffset : ZERO_OFFSET}
                         shiftOffset={shiftOffsets[i]}
                         onOpen={handleIconClick}
+                        onSelect={() => toggleSelect(link.id)}
                         onDragStart={handlePointerDown}
                     />
                 ))}
             </div>
 
-            <PromptInput prompt={prompt} setPrompt={setPrompt} />
-            <span className="text-[9px] text-white/30 tracking-[0.12em] font-mono mt-0.5 select-none relative z-10">v{__APP_VERSION__}</span>
+            <PromptInput 
+                prompt={prompt} 
+                setPrompt={setPrompt} 
+                onSubmit={handleMultiSubmit}
+                isMultiSelectMode={isMultiSelectMode}
+                selectedCount={selectedIds.size}
+            />
         </main>
     )
 }
