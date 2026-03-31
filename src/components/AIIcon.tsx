@@ -16,6 +16,16 @@ interface AIIconProps {
 
 const TRANSITION_SHIFT = 'transform 150ms ease-out';
 const TRANSITION_DROP = 'transform 200ms ease-out';
+const DRAG_STYLE: React.CSSProperties = {
+    zIndex: 50,
+    position: 'relative',
+    filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.20))',
+};
+const DROP_STYLE: React.CSSProperties = {
+    transition: TRANSITION_DROP,
+    zIndex: 50,
+    position: 'relative',
+};
 
 function computeStyle(
     isDragging: boolean,
@@ -25,18 +35,14 @@ function computeStyle(
 ): React.CSSProperties | undefined {
     if (isDragging && !isDropping) {
         return {
+            ...DRAG_STYLE,
             transform: `translate(${dragOffset.x}px, ${dragOffset.y}px) scale(1.08)`,
-            zIndex: 50,
-            position: 'relative',
-            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.4))',
         };
     }
     if (isDragging && isDropping) {
         return {
+            ...DROP_STYLE,
             transform: `translate(${dragOffset.x}px, ${dragOffset.y}px)`,
-            transition: TRANSITION_DROP,
-            zIndex: 50,
-            position: 'relative',
         };
     }
     if (shiftOffset) {
@@ -54,24 +60,33 @@ export const AIIcon: React.FC<AIIconProps> = React.memo(({
 }) => {
     const [iconError, setIconError] = React.useState(false);
     const style = computeStyle(isDragging, isDropping, dragOffset, shiftOffset);
+    const handlePointerDown = React.useCallback((e: React.PointerEvent) => {
+        onDragStart(index, e);
+    }, [index, onDragStart]);
+    const handleClick = React.useCallback(() => {
+        onOpen(link);
+    }, [link, onOpen]);
+    const handleIconError = React.useCallback(() => {
+        setIconError(true);
+    }, []);
 
     return (
         <div className="relative group flex flex-col items-center" style={style}>
             <button
-                onPointerDown={(e) => onDragStart(index, e)}
-                onClick={() => onOpen(link)}
-                className="relative flex flex-col items-center justify-center rounded-[8px] w-[38px] h-[38px] border bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20 active:scale-95 cursor-grab active:cursor-grabbing"
+                onPointerDown={handlePointerDown}
+                onClick={handleClick}
+                className="relative flex flex-col items-center justify-center rounded-[13px] w-[48px] h-[48px] border border-white/[0.08] bg-white/[0.04] hover:bg-white/[0.07] active:scale-95 cursor-grab active:cursor-grabbing transition-[background-color] duration-150"
                 title={link.name}
             >
-                <div className="w-[30px] h-[30px] bg-white rounded-[5px] p-[2px] shadow-inner flex items-center justify-center overflow-hidden">
+                <div className="w-[36px] h-[36px] rounded-[10px] bg-[#eef0f3] p-[3px] flex items-center justify-center overflow-hidden">
                     {!iconError ? (
                         <img
                             src={`/icons/${link.icon}`}
                             alt={link.name}
                             draggable={false}
                             loading="lazy"
-                            className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-200"
-                            onError={() => setIconError(true)}
+                            className="w-full h-full object-contain opacity-100"
+                            onError={handleIconError}
                         />
                     ) : (
                         <span className="text-[11px] font-black text-slate-400 uppercase tracking-tighter">
@@ -80,7 +95,7 @@ export const AIIcon: React.FC<AIIconProps> = React.memo(({
                     )}
                 </div>
             </button>
-            <span className="mt-0.5 text-[9px] font-bold text-white/90 tracking-tight text-center w-[42px] leading-tight line-clamp-2">
+            <span className="mt-1 text-[9px] font-semibold text-white/[0.82] text-center w-[52px] leading-[1.05] line-clamp-2">
                 {link.name}
             </span>
         </div>

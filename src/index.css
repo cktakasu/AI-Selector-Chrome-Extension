@@ -3,17 +3,14 @@
 @tailwind utilities;
 
 :root {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: "SF Pro Text", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  --bg-main: #020617;
-  --bg-card: #0a0f1e;
-  --color-primary: #3b82f6;
-  --border-subtle: rgba(255, 255, 255, 0.1);
+  --bg-page: #36383d;
 
   color: #f8fafc;
-  background-color: var(--bg-main);
+  background: var(--bg-page);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -28,7 +25,20 @@ body,
   padding: 0;
   width: max-content;
   height: max-content;
-  background-color: #020617 !important;
+  background: var(--bg-page);
+  overflow: hidden;
+}
+
+#root {
+  border-radius: 24px;
+}
+
+.app-shell {
+  padding: 14px 14px 10px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: #3b3d42;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
   overflow: hidden;
 }
 

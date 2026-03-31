@@ -6,18 +6,36 @@ interface PromptInputProps {
 }
 
 export const PromptInput: React.FC<PromptInputProps> = React.memo(({ prompt, setPrompt }) => {
+    const textareaRef = React.useRef<HTMLTextAreaElement | null>(null);
+    const handleChange = React.useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setPrompt(e.target.value);
+    }, [setPrompt]);
+
+    React.useLayoutEffect(() => {
+        const textarea = textareaRef.current;
+        if (!textarea) return;
+        if (!prompt) {
+            textarea.style.height = '';
+            return;
+        }
+
+        textarea.style.height = '0px';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+    }, [prompt]);
+
     return (
-        <div className="w-full relative z-10 mb-2">
+        <div className="w-full relative z-10">
             <textarea
-                autoFocus
+                ref={textareaRef}
                 value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
+                onChange={handleChange}
                 placeholder="Type your instruction..."
-                className="w-full bg-black/40 border border-white/5 rounded-xl p-3 text-[11px] text-white placeholder-white/20 focus:outline-none focus:border-sky-500/30 resize-none h-16 shadow-inner leading-relaxed"
+                rows={3}
+                className="w-full min-h-14 max-h-48 overflow-y-auto rounded-[18px] border border-white/[0.10] bg-[#47494f] px-[14px] py-3 text-[11px] text-white/[0.92] placeholder:text-white/[0.34] focus:outline-none focus:border-white/[0.14] resize-none leading-relaxed"
             />
             {prompt.length > 0 && (
                 <div className="absolute bottom-1.5 right-2 flex gap-1 pointer-events-none">
-                    <span className="text-[8px] font-bold text-white/10 uppercase tracking-widest">
+                    <span className="text-[8px] font-semibold text-white/[0.24] uppercase tracking-[0.12em]">
                         {prompt.length} chars
                     </span>
                 </div>

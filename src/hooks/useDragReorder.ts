@@ -34,6 +34,8 @@ export function useDragReorder(
     const onReorderRef = useRef(onReorder);
     const animTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const dragFlagTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const moveFrameRef = useRef<number | null>(null);
+    const latestPointerRef = useRef<Offset>({ x: 0, y: 0 });
     const rectsRef = useRef<DOMRect[]>([]);
     // liveOrder[position] = originalIndex — ドラッグ中の並び順を追跡
     const liveOrderRef = useRef<number[]>([]);
@@ -81,19 +83,23 @@ export function useDragReorder(
             return null;
         };
 
-        const onMove = (e: PointerEvent) => {
-            if (dragIndexRef.current === null) return;
+        const applyPointerMove = () => {
+            moveFrameRef.current = null;
+            const dragIndex = dragIndexRef.current;
+            if (dragIndex === null) return;
+
+            const { x: clientX, y: clientY } = latestPointerRef.current;
 
             if (!activated.current) {
-                const dx = e.clientX - startPos.current.x;
-                const dy = e.clientY - startPos.current.y;
+                const dx = clientX - startPos.current.x;
+                const dy = clientY - startPos.current.y;
                 if (dx * dx + dy * dy >= ACTIVATION_DISTANCE_SQ) {
                     activated.current = true;
                     wasDraggedRef.current = true;
                     captureRects();
                     liveOrderRef.current = itemsRef.current.map((_, i) => i);
-                    dragOriginalIndexRef.current = dragIndexRef.current;
-                    setDragIndex(dragIndexRef.current);
+                    dragOriginalIndexRef.current = dragIndex;
+                    setDragIndex(dragIndex);
                     document.body.style.cursor = 'grabbing';
                     document.body.style.userSelect = 'none';
                 }
@@ -101,12 +107,12 @@ export function useDragReorder(
             }
 
             setDragOffset({
-                x: e.clientX - startPos.current.x,
-                y: e.clientY - startPos.current.y,
+                x: clientX - startPos.current.x,
+                y: clientY - startPos.current.y,
             });
 
             // ポインタが入った枠のアイテムと、ドラッグアイテムを入れ替え
-            const pos = findPosition(e.clientX, e.clientY);
+            const pos = findPosition(clientX, clientY);
             if (pos !== null) {
                 const dragOrigIdx = dragOriginalIndexRef.current!;
                 const order = liveOrderRef.current;
@@ -120,9 +126,23 @@ export function useDragReorder(
             }
         };
 
+        const onMove = (e: PointerEvent) => {
+            if (dragIndexRef.current === null) return;
+
+            latestPointerRef.current = { x: e.clientX, y: e.clientY };
+            if (moveFrameRef.current === null) {
+                moveFrameRef.current = requestAnimationFrame(applyPointerMove);
+            }
+        };
+
         const onUp = () => {
             const dragOrigIdx = dragOriginalIndexRef.current;
             const wasActivated = activated.current;
+
+            if (moveFrameRef.current !== null) {
+                cancelAnimationFrame(moveFrameRef.current);
+                moveFrameRef.current = null;
+            }
 
             document.body.style.cursor = '';
             document.body.style.userSelect = '';
@@ -182,6 +202,7 @@ export function useDragReorder(
             document.removeEventListener('pointerup', onUp);
             if (animTimeoutRef.current) clearTimeout(animTimeoutRef.current);
             if (dragFlagTimeoutRef.current) clearTimeout(dragFlagTimeoutRef.current);
+            if (moveFrameRef.current !== null) cancelAnimationFrame(moveFrameRef.current);
         };
     }, []);
 

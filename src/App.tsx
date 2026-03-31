@@ -5,11 +5,11 @@ import { PromptInput } from './components/PromptInput'
 import { usePrompt } from './hooks/usePrompt'
 import { useOrder } from './hooks/useOrder'
 import { useDragReorder } from './hooks/useDragReorder'
-import pkg from '../package.json'
 
 const chromeStorage = typeof chrome !== 'undefined' && chrome.storage ? chrome.storage : null
 const chromeTabs = typeof chrome !== 'undefined' && chrome.tabs ? chrome.tabs : null
 const ZERO_OFFSET = { x: 0, y: 0 }
+const LINK_BY_ID = new Map(links.map((link) => [link.id, link] as const))
 
 const openUrl = (url: string) => {
     if (chromeTabs) {
@@ -28,7 +28,7 @@ function App() {
     const allLinks = useMemo(() => {
         const knownIds = new Set(order);
         const orderedLinks = order
-            .map(id => links.find(l => l.id === id))
+            .map(id => LINK_BY_ID.get(id))
             .filter((l): l is Link => l !== undefined);
         const newLinks = links.filter(l => !knownIds.has(l.id));
         return [...orderedLinks, ...newLinks];
@@ -55,10 +55,8 @@ function App() {
     }, [copyToClipboard, checkWasDragged])
 
     return (
-        <main className="flex flex-col items-center justify-center p-2 bg-[var(--bg-card)] rounded-2xl m-1 border border-[var(--border-subtle)] min-w-[240px] relative gap-2">
-            <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(circle_at_50%_0%,var(--color-primary),transparent_70%)] rounded-2xl overflow-hidden" />
-
-            <div ref={containerRef} className="grid grid-cols-5 gap-x-0.5 gap-y-0.5 w-max relative z-10">
+        <main className="app-shell flex flex-col items-center justify-center min-w-[284px] relative gap-2">
+            <div ref={containerRef} className="grid grid-cols-5 gap-x-1 gap-y-2 w-max relative z-10">
                 {allLinks.map((link, i) => (
                     <AIIcon
                         key={link.id}
@@ -75,7 +73,7 @@ function App() {
             </div>
 
             <PromptInput prompt={prompt} setPrompt={setPrompt} />
-            <span className="text-[9px] text-white/20 tracking-widest font-mono -mt-2 mb-0.5 select-none">v{pkg.version}</span>
+            <span className="text-[9px] text-white/30 tracking-[0.12em] font-mono mt-0.5 select-none relative z-10">v{__APP_VERSION__}</span>
         </main>
     )
 }
