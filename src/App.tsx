@@ -93,7 +93,7 @@ function App() {
                         dragOffset={dragIndex === i ? dragOffset : ZERO_OFFSET}
                         shiftOffset={shiftOffsets[i]}
                         onOpen={handleIconClick}
-                        onSelect={() => toggleSelect(link.id)}
+                        onSelect={toggleSelect}
                         onDragStart={handlePointerDown}
                     />
                 ))}

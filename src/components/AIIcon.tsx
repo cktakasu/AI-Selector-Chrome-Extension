@@ -12,7 +12,7 @@ interface AIIconProps {
     dragOffset: Offset;
     shiftOffset?: Offset;
     onOpen: (link: Link) => void;
-    onSelect?: (link: Link) => void;
+    onSelect?: (id: string) => void;
     onDragStart: (index: number, e: React.PointerEvent) => void;
 }
 
@@ -61,13 +61,15 @@ export const AIIcon: React.FC<AIIconProps> = React.memo(({
     onOpen, onSelect, onDragStart,
 }) => {
     const [iconError, setIconError] = React.useState(false);
-    const style = computeStyle(isDragging, isDropping, dragOffset, shiftOffset);
+    const style = React.useMemo(() => computeStyle(isDragging, isDropping, dragOffset, shiftOffset), [isDragging, isDropping, dragOffset, shiftOffset]);
+    
     const handlePointerDown = React.useCallback((e: React.PointerEvent) => {
         onDragStart(index, e);
     }, [index, onDragStart]);
+    
     const handleClick = React.useCallback((e: React.MouseEvent) => {
         if ((e.ctrlKey || e.metaKey) && onSelect) {
-            onSelect(link);
+            onSelect(link.id);
             return;
         }
         onOpen(link);
