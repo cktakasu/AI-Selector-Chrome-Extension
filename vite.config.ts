@@ -2,6 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { crx, defineManifest } from '@crxjs/vite-plugin'
 import pkg from './package.json' with { type: 'json' }
+import fs from 'fs'
+import path from 'path'
 
 const manifest = defineManifest({
   manifest_version: 3,
@@ -32,6 +34,23 @@ const manifest = defineManifest({
   }]
 })
 
+function copyToSafariPlugin() {
+  return {
+    name: 'copy-to-safari',
+    closeBundle() {
+      const srcDir = path.resolve(__dirname, 'dist')
+      const destDir = path.resolve(__dirname, 'safari-extension-macos', 'AI Selecter', 'AI Selecter Extension', 'Resources')
+      
+      if (fs.existsSync(srcDir)) {
+        // 古いアセットファイルをクリアしてゴミが残らないようにする
+        fs.rmSync(path.join(destDir, 'assets'), { recursive: true, force: true })
+        fs.cpSync(srcDir, destDir, { recursive: true, force: true })
+        console.log(`\n[copy-to-safari] Synced build to Safari Resources!`)
+      }
+    }
+  }
+}
+
 export default defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),
@@ -59,5 +78,6 @@ export default defineConfig({
   plugins: [
     react(),
     crx({ manifest }),
+    copyToSafariPlugin(),
   ],
 })

@@ -2,46 +2,88 @@
  * AI Selector - Content Script
  * Lightweight auto-fill for AI service chat inputs.
  */
-(function () {
-  var SELECTORS = {
+(() => {
+  const SELECTORS = {
     'claude.ai': 'div[contenteditable="true"].ProseMirror, div[contenteditable="true"][data-placeholder], div[contenteditable="true"]',
     'gemini.google.com': 'div[contenteditable="true"][role="textbox"], div[contenteditable="true"]',
     'manus.im': 'textarea, div[contenteditable="true"]',
     'genspark.ai': 'textarea, div[contenteditable="true"]'
   };
 
-  var MAX_WAIT_MS = 10000;
-  var MAX_AGE_MS = 30000;
-  var SUBMIT_DELAY_MS = 300;
-  var POLL_INTERVAL_MS = 200;
-  var STORAGE_KEYS = ['pendingPrompt', 'timestamp'];
+  const MAX_WAIT_MS = 10000;
+  const MAX_AGE_MS = 30000;
+  const SUBMIT_DELAY_MS = 300;
+  const POLL_INTERVAL_MS = 200;
+  const STORAGE_KEYS = ['pendingPrompt', 'timestamp'];
 
-  var hostname = location.hostname;
-  var selector = null;
-  for (var key in SELECTORS) {
-    if (hostname === key || hostname.endsWith('.' + key)) {
+  const hostname = location.hostname;
+
+  const storage = typeof browser !== 'undefined' && browser.storage
+    ? browser.storage
+    : (typeof chrome !== 'undefined' && chrome.storage ? chrome.storage : null);
+  if (!storage) return;
+
+  // === Enter Key Newline Mode ===
+  let enterNewlineMode = false;
+
+  try {
+    storage.local.get(['aiSelectorEnterNewline'], (data) => {
+      enterNewlineMode = !!data?.aiSelectorEnterNewline;
+    });
+    storage.onChanged.addListener((changes, area) => {
+      if (area === 'local' && 'aiSelectorEnterNewline' in changes) {
+        enterNewlineMode = !!changes.aiSelectorEnterNewline.newValue;
+      }
+    });
+  } catch (_) { /* extension context invalidated */ }
+
+  window.addEventListener('keydown', (e) => {
+    if (!enterNewlineMode) return;
+    if (e.key !== 'Enter' || e.shiftKey || e.ctrlKey || e.metaKey || e.altKey) return;
+
+    const target = e.target;
+    if (!target) return;
+    const isEditable = target.tagName === 'TEXTAREA' ||
+      target.contentEditable === 'true';
+    if (!isEditable) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    if (target.tagName === 'TEXTAREA') {
+      const start = target.selectionStart;
+      const end = target.selectionEnd;
+      target.value = target.value.slice(0, start) + '\n' + target.value.slice(end);
+      target.selectionStart = target.selectionEnd = start + 1;
+      target.dispatchEvent(new Event('input', { bubbles: true }));
+    } else {
+      // execCommand fires a trusted beforeinput event internally,
+      // making it compatible with ProseMirror and other modern editors.
+      document.execCommand('insertLineBreak');
+    }
+  }, true);
+
+  // === Prompt Injection ===
+  let selector = null;
+  for (const key in SELECTORS) {
+    if (hostname === key || hostname.endsWith(`.${key}`)) {
       selector = SELECTORS[key];
       break;
     }
   }
   if (!selector) return;
 
-  var storage = typeof browser !== 'undefined' && browser.storage
-    ? browser.storage
-    : (typeof chrome !== 'undefined' && chrome.storage ? chrome.storage : null);
-  if (!storage) return;
-
-  function submit(el) {
-    var form = el.closest('form');
+  const submit = (el) => {
+    const form = el.closest('form');
     if (form) {
-      var btn = form.querySelector('button[type="submit"], button:not([type="button"])');
+      const btn = form.querySelector('button[type="submit"], button:not([type="button"])');
       if (btn) { btn.click(); return; }
     }
     el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', keyCode: 13, bubbles: true, cancelable: true }));
     el.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', keyCode: 13, bubbles: true }));
-  }
+  };
 
-  function fillElement(el, text, onFilled) {
+  const fillElement = (el, text, onFilled) => {
     el.focus();
     if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') {
       el.value = text;
@@ -52,14 +94,14 @@
       el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: text }));
     }
     onFilled();
-    setTimeout(function () { submit(el); }, SUBMIT_DELAY_MS);
-  }
+    setTimeout(() => submit(el), SUBMIT_DELAY_MS);
+  };
 
-  function waitAndFill(text, onFilled) {
-    var deadline = Date.now() + MAX_WAIT_MS;
+  const waitAndFill = (text, onFilled) => {
+    const deadline = Date.now() + MAX_WAIT_MS;
 
-    function poll() {
-      var el = document.querySelector(selector);
+    const poll = () => {
+      const el = document.querySelector(selector);
       if (el) {
         fillElement(el, text, onFilled);
         return;
@@ -67,19 +109,19 @@
       if (Date.now() < deadline) {
         setTimeout(poll, POLL_INTERVAL_MS);
       }
-    }
+    };
 
     poll();
-  }
+  };
 
   try {
-    storage.local.get(STORAGE_KEYS, function (data) {
+    storage.local.get(STORAGE_KEYS, (data) => {
       if (!data || !data.pendingPrompt) return;
       if (Date.now() - data.timestamp > MAX_AGE_MS) return;
 
-      waitAndFill(data.pendingPrompt, function () {
+      waitAndFill(data.pendingPrompt, () => {
         // Delay removal to allow multiple tabs to read the pending prompt in multi-select mode
-        setTimeout(function() {
+        setTimeout(() => {
           try { storage.local.remove(STORAGE_KEYS); } catch (_) { /* noop */ }
         }, 2000);
       });

@@ -1,11 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { links } from '../data/links';
+import { browser } from '../lib/browser';
 
 const STORAGE_KEY = 'aiSelectorOrder';
 const DEFAULT_ORDER = links.map((link) => link.id);
 const VALID_IDS = new Set(DEFAULT_ORDER);
-
-const chromeStorage = typeof chrome !== 'undefined' && chrome.storage ? chrome.storage : null;
 
 function normalizeOrder(order: string[]): string[] {
     const seen = new Set<string>();
@@ -27,27 +26,17 @@ function normalizeOrder(order: string[]): string[] {
 }
 
 async function loadOrder(): Promise<string[]> {
-    if (chromeStorage) {
-        const result = await chromeStorage.local.get(STORAGE_KEY);
+    try {
+        const result = await browser.storage.local.get(STORAGE_KEY);
         const storedOrder = result[STORAGE_KEY];
         return Array.isArray(storedOrder) ? normalizeOrder(storedOrder) : DEFAULT_ORDER;
-    }
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) return DEFAULT_ORDER;
-    try {
-        const parsed = JSON.parse(saved);
-        return Array.isArray(parsed) ? normalizeOrder(parsed) : DEFAULT_ORDER;
     } catch {
         return DEFAULT_ORDER;
     }
 }
 
 async function saveOrder(order: string[]): Promise<void> {
-    if (chromeStorage) {
-        await chromeStorage.local.set({ [STORAGE_KEY]: order });
-    } else {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(order));
-    }
+    await browser.storage.local.set({ [STORAGE_KEY]: order });
 }
 
 export const useOrder = () => {
