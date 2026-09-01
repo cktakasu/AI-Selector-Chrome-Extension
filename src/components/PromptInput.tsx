@@ -16,6 +16,7 @@ export const PromptInput: React.FC<PromptInputProps> = React.memo(({ prompt, set
     }, [setPrompt]);
 
     const handleKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.isComposing || e.nativeEvent.isComposing || e.keyCode === 229) return;
         // Enterキーのみ（Shiftなし）かつ改行モードが無効な場合に送信
         if (e.key === 'Enter' && !e.shiftKey && !enterNewline) {
             if (onSubmit) {

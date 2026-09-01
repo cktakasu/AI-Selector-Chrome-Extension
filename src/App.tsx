@@ -10,9 +10,40 @@ import { useMultiSelect } from './hooks/useMultiSelect'
 import { browser } from './lib/browser'
 
 const LINK_BY_ID = new Map(links.map((link) => [link.id, link] as const))
+const PENDING_PROMPTS_KEY = 'pendingPrompts'
+const PENDING_MAX_AGE_MS = 30_000
+const LEGACY_PENDING_KEYS = ['pendingPrompt', 'timestamp'] as const
+
+type PendingPromptEntry = {
+    host: string
+    prompt: string
+    timestamp: number
+}
+
+const normalizeHost = (hostname: string) => hostname.replace(/^www\./, '')
 
 const openUrl = (url: string) => {
     browser.tabs.create({ url });
+}
+
+const enqueuePendingPrompt = async (url: string, prompt: string) => {
+    const host = normalizeHost(new URL(url).hostname)
+    const data = await browser.storage.local.get([PENDING_PROMPTS_KEY, ...LEGACY_PENDING_KEYS])
+    const now = Date.now()
+    const existing = Array.isArray(data[PENDING_PROMPTS_KEY]) ? data[PENDING_PROMPTS_KEY] as PendingPromptEntry[] : []
+    const next = existing.filter((item) =>
+        item &&
+        typeof item.host === 'string' &&
+        typeof item.prompt === 'string' &&
+        typeof item.timestamp === 'number' &&
+        now - item.timestamp <= PENDING_MAX_AGE_MS &&
+        item.host !== host
+    )
+    next.push({ host, prompt, timestamp: now })
+    await browser.storage.local.set({ [PENDING_PROMPTS_KEY]: next })
+    if (data.pendingPrompt !== undefined || data.timestamp !== undefined) {
+        await browser.storage.local.remove([...LEGACY_PENDING_KEYS])
+    }
 }
 
 const dispatchPrompt = async (link: Link, prompt: string) => {
@@ -21,10 +52,7 @@ const dispatchPrompt = async (link: Link, prompt: string) => {
         return;
     }
     if (prompt) {
-        await browser.storage.local.set({
-            pendingPrompt: prompt,
-            timestamp: Date.now()
-        });
+        await enqueuePendingPrompt(link.url, prompt);
     }
     openUrl(link.url);
 };

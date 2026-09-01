@@ -1,18 +1,18 @@
 {
   "manifest_version": 3,
   "name": "AI Selecter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple launcher for AI services",
   "action": {
     "default_popup": "index.html",
     "default_title": "AI Selecter",
-    "default_icon": "icon.png"
+    "default_icon": "icon-48.png"
   },
   "icons": {
-    "16": "icon.png",
-    "32": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
+    "16": "icon-16.png",
+    "32": "icon-32.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
   },
   "permissions": [
     "clipboardWrite",
@@ -22,7 +22,7 @@
   "content_scripts": [
     {
       "js": [
-        "assets/content-script.js-DviU2X_d.js"
+        "assets/content-script.js-DzBljfWA.js"
       ],
       "matches": [
         "https://claude.ai/*",
@@ -42,7 +42,7 @@
         "https://www.genspark.ai/*"
       ],
       "resources": [
-        "assets/content-script.js-DviU2X_d.js"
+        "assets/content-script.js-DzBljfWA.js"
       ],
       "use_dynamic_url": false
     }

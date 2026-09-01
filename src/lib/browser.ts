@@ -35,6 +35,16 @@ export const browser = {
                 for (const [key, value] of Object.entries(items)) {
                     localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
                 }
+            },
+            remove: async (keys: string | string[]): Promise<void> => {
+                if (isChrome && chrome.storage?.local) {
+                    return await chrome.storage.local.remove(keys);
+                }
+
+                const keysToRemove = Array.isArray(keys) ? keys : [keys];
+                for (const key of keysToRemove) {
+                    localStorage.removeItem(key);
+                }
             }
         }
     },
