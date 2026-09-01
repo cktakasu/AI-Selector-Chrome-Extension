@@ -16,7 +16,7 @@ export const PromptInput: React.FC<PromptInputProps> = React.memo(({ prompt, set
     }, [setPrompt]);
 
     const handleKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if (e.isComposing || e.nativeEvent.isComposing || e.keyCode === 229) return;
+        if (e.nativeEvent.isComposing || e.keyCode === 229) return;
         // Enterキーのみ（Shiftなし）かつ改行モードが無効な場合に送信
         if (e.key === 'Enter' && !e.shiftKey && !enterNewline) {
             if (onSubmit) {
@@ -45,6 +45,7 @@ export const PromptInput: React.FC<PromptInputProps> = React.memo(({ prompt, set
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
                 placeholder={isMultiSelectMode ? `Type instruction for ${selectedCount} services...` : "Type your instruction..."}
+                aria-label={isMultiSelectMode ? `Instruction for ${selectedCount} services` : "Instruction"}
                 rows={3}
                 className={`w-full min-h-14 max-h-48 overflow-y-auto rounded-[18px] border px-[14px] py-3 text-[11px] text-slate-800 dark:text-white/[0.92] placeholder:text-slate-400 dark:placeholder:text-white/[0.34] focus:outline-none resize-none leading-relaxed transition-colors duration-200 ${
                     isMultiSelectMode ? 'bg-blue-50/50 dark:bg-[#3b475c] border-blue-400/40 dark:border-blue-400/30 focus:border-blue-500/60 dark:focus:border-blue-400/60' : 'bg-slate-50 dark:bg-[#47494f] border-slate-200 dark:border-white/[0.10] focus:border-slate-300 dark:focus:border-white/[0.14]'

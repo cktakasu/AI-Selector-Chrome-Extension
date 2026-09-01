@@ -188,7 +188,7 @@ export function useDragReorder(
             // Pointer Captureを解除
             try {
                 (e.target as HTMLElement)?.releasePointerCapture(e.pointerId);
-            } catch (err) {
+            } catch {
                 // ignore
             }
 
@@ -257,7 +257,11 @@ export function useDragReorder(
 
     const handlePointerDown = useCallback((index: number, e: React.PointerEvent) => {
         // Pointer Captureを開始して、ウィンドウ外でもイベントを拾えるようにする
-        (e.target as HTMLElement).setPointerCapture(e.pointerId);
+        try {
+            (e.target as HTMLElement)?.setPointerCapture?.(e.pointerId);
+        } catch {
+            // ignore
+        }
         
         startPos.current = { x: e.clientX, y: e.clientY };
         dragIndexRef.current = index;

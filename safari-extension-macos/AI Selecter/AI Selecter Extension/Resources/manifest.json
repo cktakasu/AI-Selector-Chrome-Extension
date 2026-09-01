@@ -22,7 +22,7 @@
   "content_scripts": [
     {
       "js": [
-        "assets/content-script.js-DzBljfWA.js"
+        "assets/content-script.js-yjZYp02X.js"
       ],
       "matches": [
         "https://claude.ai/*",
@@ -42,7 +42,7 @@
         "https://www.genspark.ai/*"
       ],
       "resources": [
-        "assets/content-script.js-DzBljfWA.js"
+        "assets/content-script.js-yjZYp02X.js"
       ],
       "use_dynamic_url": false
     }

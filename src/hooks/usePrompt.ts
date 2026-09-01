@@ -5,6 +5,8 @@ async function fallbackCopyText(text: string): Promise<void> {
     textarea.value = text;
     textarea.setAttribute('readonly', '');
     textarea.style.position = 'fixed';
+    textarea.style.top = '-9999px';
+    textarea.style.left = '-9999px';
     textarea.style.opacity = '0';
     document.body.appendChild(textarea);
     textarea.select();

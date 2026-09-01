@@ -11,7 +11,9 @@
     ],
     'gemini.google.com': [
       'div[contenteditable="true"][role="textbox"]',
-      'div[contenteditable="true"]'
+      'rich-textarea [contenteditable="true"]',
+      'div[contenteditable="true"]',
+      'textarea'
     ],
     'manus.im': [
       'textarea',
@@ -66,6 +68,7 @@
     const target = e.target;
     if (!target) return;
     const isEditable = target.tagName === 'TEXTAREA' ||
+      target.isContentEditable ||
       target.contentEditable === 'true';
     if (!isEditable) return;
 
@@ -117,10 +120,14 @@
     const form = el.closest('form');
     if (form) {
       const btn = form.querySelector('button[type="submit"], button:not([type="button"])');
-      if (btn) { btn.click(); return; }
+      if (btn && !btn.disabled) {
+        btn.click();
+        return;
+      }
     }
-    el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', keyCode: 13, bubbles: true, cancelable: true }));
-    el.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', keyCode: 13, bubbles: true }));
+    const enterEventInit = { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true, cancelable: true };
+    el.dispatchEvent(new KeyboardEvent('keydown', enterEventInit));
+    el.dispatchEvent(new KeyboardEvent('keyup', enterEventInit));
   };
 
   const fillElement = (el, text) => {
@@ -129,9 +136,17 @@
       el.value = text;
       el.dispatchEvent(new Event('input', { bubbles: true }));
     } else {
-      // Modern contenteditable fill with InputEvent
-      el.textContent = text;
-      el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: text }));
+      // Modern contenteditable fill: try execCommand first for full editor model sync
+      let inserted = false;
+      try {
+        inserted = document.execCommand('insertText', false, text);
+      } catch (_) {
+        inserted = false;
+      }
+      if (!inserted) {
+        el.textContent = text;
+        el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: text }));
+      }
     }
     setTimeout(() => submit(el), SUBMIT_DELAY_MS);
   };

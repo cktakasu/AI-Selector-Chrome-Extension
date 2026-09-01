@@ -44,7 +44,7 @@ export const links: Link[] = [
         url: 'https://grok.com/',
         searchUrl: 'https://grok.com/?q=',
         category: 'LLM',
-        icon: 'grok.png',
+        icon: 'grok.svg',
     },
     {
         id: 'manus',
@@ -74,7 +74,7 @@ export const links: Link[] = [
         url: 'https://chat.deepseek.com/',
         searchUrl: 'https://chat.deepseek.com/?q=',
         category: 'LLM',
-        icon: 'deepseek.png',
+        icon: 'deepseek.svg',
     },
     {
         id: 'kimi',

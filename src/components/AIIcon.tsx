@@ -43,6 +43,8 @@ export const AIIcon: React.FC<AIIconProps> = React.memo(({
                     isSelected ? 'border-blue-400/60 bg-blue-50 dark:bg-blue-500/10 shadow-[0_0_12px_rgba(59,130,246,0.3)]' : 'border-slate-200 dark:border-white/[0.08]'
                 }`}
                 title={link.name}
+                aria-label={link.name}
+                aria-pressed={isSelected}
             >
                 {isSelected && (
                     <div className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-md z-20 border border-white/20">

@@ -43,6 +43,7 @@ export const ThemeToggle: React.FC = () => {
             onClick={toggleTheme}
             className="absolute top-2.5 right-2.5 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-white/[0.08] transition-colors z-20 outline-none"
             title={`Current theme: ${theme}`}
+            aria-label={`Current theme: ${theme}`}
         >
             {theme === 'light' && <SunIcon />}
             {theme === 'dark' && <MoonIcon />}

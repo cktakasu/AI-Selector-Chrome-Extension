@@ -7,13 +7,21 @@ const isChrome = typeof chrome !== 'undefined' && !!chrome.storage;
 export const browser = {
     storage: {
         local: {
-            get: async (keys: string | string[] | Record<string, any> | null): Promise<Record<string, any>> => {
+            get: async <T extends Record<string, unknown> = Record<string, unknown>>(
+                keys: string | string[] | Record<string, unknown> | null
+            ): Promise<T> => {
                 if (isChrome && chrome.storage?.local) {
-                    return await chrome.storage.local.get(keys);
+                    return (await chrome.storage.local.get(keys)) as T;
                 }
                 
-                const result: Record<string, any> = {};
-                const keysToFetch = Array.isArray(keys) ? keys : typeof keys === 'string' ? [keys] : Object.keys(keys || {});
+                const result: Record<string, unknown> = {};
+                const keysToFetch = keys === null
+                    ? Object.keys(localStorage)
+                    : Array.isArray(keys)
+                        ? keys
+                        : typeof keys === 'string'
+                            ? [keys]
+                            : Object.keys(keys || {});
                 
                 for (const key of keysToFetch) {
                     const val = localStorage.getItem(key);
@@ -25,9 +33,9 @@ export const browser = {
                         }
                     }
                 }
-                return result;
+                return result as T;
             },
-            set: async (items: Record<string, any>): Promise<void> => {
+            set: async (items: Record<string, unknown>): Promise<void> => {
                 if (isChrome && chrome.storage?.local) {
                     return await chrome.storage.local.set(items);
                 }

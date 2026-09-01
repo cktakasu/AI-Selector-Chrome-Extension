@@ -127,6 +127,7 @@ function App() {
             <button
                 onClick={toggleEnterNewline}
                 title={enterNewline ? 'Enter = 改行モード ON（クリックでOFF）' : 'Enter = 改行モード OFF（クリックでON）'}
+                aria-label={enterNewline ? 'Enter = 改行モード ON（クリックでOFF）' : 'Enter = 改行モード OFF（クリックでON）'}
                 className={`absolute top-2.5 left-2.5 p-1.5 rounded-full transition-colors z-20 outline-none ${
                     enterNewline
                         ? 'text-blue-500 dark:text-blue-400 bg-blue-50 dark:bg-blue-400/10'
